@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>بورصة نيالا</title>
+
+<style>
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f2f2f2;
+    margin: 0;
+    padding: 15px;
+}
+
+.header {
+    background: #1f2937;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 15px;
+}
+
+.card {
+    background: white;
+    padding: 18px;
+    margin-bottom: 15px;
+    border-radius: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.price {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    font-size: 18px;
+}
+
+.number {
+    font-weight: bold;
+}
+
+.update {
+    text-align: center;
+    color: #666;
+    margin-top: 20px;
+}
+
+.status {
+    text-align: center;
+    margin: 10px;
+    font-weight: bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>بورصة نيالا</h1>
+    <p>أسعار السوق الآن</p>
+</div>
+
+<div class="status" id="status">
+    جاري تحميل الأسعار...
+</div>
+
+<div class="card">
+
+    <div class="title">🥇 الذهب</div>
+
+    <div class="price">
+        <span>شراء</span>
+        <span class="number" id="goldBuy">---</span>
+    </div>
+
+    <div class="price">
+        <span>بيع</span>
+        <span class="number" id="goldSell">---</span>
+    </div>
+
+</div>
+
+<div class="card">
+
+    <div class="title">💵 الدولار</div>
+
+    <div class="price">
+        <span>شراء</span>
+        <span class="number" id="dollarBuy">---</span>
+    </div>
+
+    <div class="price">
+        <span>بيع</span>
+        <span class="number" id="dollarSell">---</span>
+    </div>
+
+</div>
+
+<div class="card">
+
+    <div class="title">⛽ الوقود</div>
+
+    <div class="price">
+        <span>السعر</span>
+        <span class="number" id="fuel">---</span>
+    </div>
+
+</div>
+
+<div class="update">
+    آخر تحديث:
+    <span id="lastUpdate">---</span>
+</div>
+
+
+<script>
+
+async function loadPrices() {
+
+    try {
+
+        const response = await fetch("prices.txt");
+
+        const text = await response.text();
+
+        const lines = text.split("\n");
+
+        let prices = {};
+
+        lines.forEach(function(line) {
+
+            const parts = line.split(":");
+
+            if (parts.length >= 2) {
+
+                const key = parts[0].trim();
+
+                const value = parts.slice(1).join(":").trim();
+
+                prices[key] = value;
+
+            }
+
+        });
+
+        document.getElementById("goldBuy").textContent =
+            prices["Gold BUY"] || "---";
+
+        document.getElementById("goldSell").textContent =
+            prices["Gold SELL"] || "---";
+
+        document.getElementById("dollarBuy").textContent =
+            prices["Dollar BUY"] || "---";
+
+        document.getElementById("dollarSell").textContent =
+            prices["Dollar SELL"] || "---";
+
+        document.getElementById("fuel").textContent =
+            prices["Fuel"] || "---";
+
+        document.getElementById("lastUpdate").textContent =
+            prices["Last update"] || "---";
+
+        document.getElementById("status").textContent =
+            "● الأسعار محدثة";
+
+    }
+
+    catch (error) {
+
+        document.getElementById("status").textContent =
+            "تعذر تحميل الأسعار";
+
+    }
+
+}
+
+loadPrices();
+
+</script>
+
+</body>
+
+</html>
