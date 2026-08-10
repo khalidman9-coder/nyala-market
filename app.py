@@ -4,37 +4,31 @@ import os
 from datetime import datetime
 from urllib.parse import urlparse
 
-
-# =========================
-# إعدادات الملفات
-# =========================
-
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 PRICES_FILE = os.path.join(BASE_DIR, "prices.txt")
 HISTORY_FILE = os.path.join(BASE_DIR, "history.txt")
 
-
-# =========================
-# بيانات الدخول من Render
-# =========================
-
 USERNAME = os.environ.get("USERNAME", "")
 PASSWORD = os.environ.get("PASSWORD", "")
 
+if not os.path.exists(PRICES_FILE):
+    with open(PRICES_FILE, "w", encoding="utf-8") as file:
+        file.write("Gold BUY: 4350\n")
+        file.write("Gold SELL: 4370\n")
+        file.write("Dollar BUY: 4250\n")
+        file.write("Dollar SELL: 4280\n")
+        file.write("Diesel: 1400\n")
+        file.write("Gasoline: 0\n")
+        file.write("Last update: --\n")
 
-# =========================
-# HTTP Handler
-# =========================
+if not os.path.exists(HISTORY_FILE):
+    open(HISTORY_FILE, "w", encoding="utf-8").close()
+
 
 class NyalaHandler(BaseHTTPRequestHandler):
 
-    # -------------------------
-    # إرسال نص
-    # -------------------------
-
     def send_text(self, text, status=200):
-
         data = text.encode("utf-8")
 
         self.send_response(status)
@@ -55,34 +49,15 @@ class NyalaHandler(BaseHTTPRequestHandler):
             self.wfile.write(data)
 
 
-    # -------------------------
-    # إرسال HTML
-    # -------------------------
-
     def send_html(self, filename):
-
-        file_path = os.path.join(
-            BASE_DIR,
-            filename
-        )
+        file_path = os.path.join(BASE_DIR, filename)
 
         if not os.path.exists(file_path):
-
-            self.send_error(
-                404,
-                "Page not found"
-            )
-
+            self.send_error(404, "Page not found")
             return
 
-
-        with open(
-            file_path,
-            "rb"
-        ) as file:
-
+        with open(file_path, "rb") as file:
             data = file.read()
-
 
         self.send_response(200)
 
@@ -102,38 +77,19 @@ class NyalaHandler(BaseHTTPRequestHandler):
             self.wfile.write(data)
 
 
-    # -------------------------
-    # GET
-    # -------------------------
-
     def do_GET(self):
 
-        parsed = urlparse(self.path)
+        path = urlparse(self.path).path
 
-        path = parsed.path
-
-
-        # الأسعار
 
         if path == "/prices.txt":
 
             if not os.path.exists(PRICES_FILE):
-
-                self.send_text(
-                    "Prices not found",
-                    404
-                )
-
+                self.send_text("Prices not found", 404)
                 return
 
-
-            with open(
-                PRICES_FILE,
-                "rb"
-            ) as file:
-
+            with open(PRICES_FILE, "rb") as file:
                 data = file.read()
-
 
             self.send_response(200)
 
@@ -148,83 +104,22 @@ class NyalaHandler(BaseHTTPRequestHandler):
             )
 
             self.send_header(
-                "Pragma",
-                "no-cache"
-            )
-
-            self.send_header(
-                "Expires",
-                "0"
-            )
-
-            self.send_header(
                 "Content-Length",
                 str(len(data))
             )
 
             self.end_headers()
 
-            self.wfile.write(data)
+            if self.command != "HEAD":
+                self.wfile.write(data)
 
             return
 
 
-        # لوحة الإدارة
+        if path == "/history.txt":
 
-        if path == "/admin.html":
-
-            self.send_html(
-                "admin.html"
-            )
-
-            return
-
-
-        # الصفحة الرئيسية
-
-        if path == "/":
-
-            self.send_html(
-                "index.html"
-            )
-
-            return
-
-
-        # أي مسار غير معروف
-
-        self.send_error(
-            404,
-            "Not found"
-        )
-
-
-    # -------------------------
-    # HEAD
-    # -------------------------
-
-    def do_HEAD(self):
-
-        parsed = urlparse(self.path)
-
-        path = parsed.path
-
-
-        if path == "/prices.txt":
-
-            if not os.path.exists(PRICES_FILE):
-
-                self.send_error(
-                    404,
-                    "Prices not found"
-                )
-
-                return
-
-
-            file_size = os.path.getsize(
-                PRICES_FILE
-            )
+            with open(HISTORY_FILE, "rb") as file:
+                data = file.read()
 
             self.send_response(200)
 
@@ -234,96 +129,68 @@ class NyalaHandler(BaseHTTPRequestHandler):
             )
 
             self.send_header(
-                "Content-Length",
-                str(file_size)
+                "Cache-Control",
+                "no-cache, no-store, must-revalidate"
             )
 
             self.send_header(
-                "Cache-Control",
-                "no-cache"
+                "Content-Length",
+                str(len(data))
             )
 
             self.end_headers()
 
+            if self.command != "HEAD":
+                self.wfile.write(data)
+
             return
 
 
-        if path == "/" or path == "/admin.html":
-
-            filename = (
-                "index.html"
-                if path == "/"
-                else "admin.html"
-            )
-
-            file_path = os.path.join(
-                BASE_DIR,
-                filename
-            )
+        if path == "/admin.html":
+            self.send_html("admin.html")
+            return
 
 
-            if not os.path.exists(file_path):
-
-                self.send_error(
-                    404,
-                    "Page not found"
-                )
-
-                return
+        if path == "/history.html":
+            self.send_html("history.html")
+            return
 
 
-            file_size = os.path.getsize(
-                file_path
-            )
+        if path == "/":
+            self.send_html("index.html")
+            return
 
+
+        self.send_error(404, "Not found")
+
+
+    def do_HEAD(self):
+
+        path = urlparse(self.path).path
+
+        if path in (
+            "/",
+            "/admin.html",
+            "/history.html",
+            "/prices.txt",
+            "/history.txt"
+        ):
 
             self.send_response(200)
-
-            self.send_header(
-                "Content-Type",
-                "text/html; charset=utf-8"
-            )
-
-            self.send_header(
-                "Content-Length",
-                str(file_size)
-            )
-
             self.end_headers()
-
             return
 
+        self.send_error(404)
 
-        self.send_error(
-            404,
-            "Not found"
-        )
-
-
-    # -------------------------
-    # POST
-    # -------------------------
 
     def do_POST(self):
 
-        parsed = urlparse(self.path)
-
-        path = parsed.path
-
+        path = urlparse(self.path).path
 
         if path != "/update":
-
-            self.send_error(
-                404,
-                "Not found"
-            )
-
+            self.send_error(404)
             return
 
-
-        # -------------------------
-        # التحقق من بيانات الدخول
-        # -------------------------
 
         username = self.headers.get(
             "X-Username",
@@ -351,10 +218,6 @@ class NyalaHandler(BaseHTTPRequestHandler):
             return
 
 
-        # -------------------------
-        # قراءة البيانات
-        # -------------------------
-
         try:
 
             content_length = int(
@@ -368,16 +231,6 @@ class NyalaHandler(BaseHTTPRequestHandler):
 
             self.send_text(
                 "بيانات غير صحيحة",
-                400
-            )
-
-            return
-
-
-        if content_length <= 0:
-
-            self.send_text(
-                "لم يتم إرسال بيانات",
                 400
             )
 
@@ -405,20 +258,17 @@ class NyalaHandler(BaseHTTPRequestHandler):
             return
 
 
-        # -------------------------
-        # استخراج الأسعار
-        # -------------------------
-
-        required_fields = [
+        fields = [
             "goldBuy",
             "goldSell",
             "dollarBuy",
             "dollarSell",
-            "fuel"
+            "diesel",
+            "gasoline"
         ]
 
 
-        for field in required_fields:
+        for field in fields:
 
             if field not in data:
 
@@ -430,39 +280,20 @@ class NyalaHandler(BaseHTTPRequestHandler):
                 return
 
 
-        gold_buy = str(
-            data["goldBuy"]
-        )
+        gold_buy = str(data["goldBuy"])
+        gold_sell = str(data["goldSell"])
 
-        gold_sell = str(
-            data["goldSell"]
-        )
+        dollar_buy = str(data["dollarBuy"])
+        dollar_sell = str(data["dollarSell"])
 
-        dollar_buy = str(
-            data["dollarBuy"]
-        )
+        diesel = str(data["diesel"])
+        gasoline = str(data["gasoline"])
 
-        dollar_sell = str(
-            data["dollarSell"]
-        )
-
-        fuel = str(
-            data["fuel"]
-        )
-
-
-        # -------------------------
-        # وقت التحديث
-        # -------------------------
 
         time_now = datetime.now().strftime(
             "%Y-%m-%d %H:%M:%S"
         )
 
-
-        # -------------------------
-        # حفظ الأسعار
-        # -------------------------
 
         try:
 
@@ -497,8 +328,14 @@ class NyalaHandler(BaseHTTPRequestHandler):
                 )
 
                 file.write(
-                    "Fuel: "
-                    + fuel
+                    "Diesel: "
+                    + diesel
+                    + "\n"
+                )
+
+                file.write(
+                    "Gasoline: "
+                    + gasoline
                     + "\n"
                 )
 
@@ -508,10 +345,6 @@ class NyalaHandler(BaseHTTPRequestHandler):
                     + "\n"
                 )
 
-
-            # -------------------------
-            # حفظ التاريخ
-            # -------------------------
 
             with open(
                 HISTORY_FILE,
@@ -529,8 +362,10 @@ class NyalaHandler(BaseHTTPRequestHandler):
                     + dollar_buy
                     + "/"
                     + dollar_sell
-                    + " | Fuel: "
-                    + fuel
+                    + " | Diesel: "
+                    + diesel
+                    + " | Gasoline: "
+                    + gasoline
                     + "\n"
                 )
 
@@ -538,7 +373,7 @@ class NyalaHandler(BaseHTTPRequestHandler):
         except Exception as error:
 
             print(
-                "ERROR SAVING PRICES:",
+                "ERROR:",
                 error
             )
 
@@ -550,19 +385,11 @@ class NyalaHandler(BaseHTTPRequestHandler):
             return
 
 
-        # -------------------------
-        # نجاح
-        # -------------------------
-
         self.send_text(
             "تم تحديث الأسعار بنجاح",
             200
         )
 
-
-# =========================
-# تشغيل السيرفر
-# =========================
 
 if __name__ == "__main__":
 
@@ -573,19 +400,12 @@ if __name__ == "__main__":
         )
     )
 
-
     server = HTTPServer(
-        (
-            "0.0.0.0",
-            port
-        ),
+        ("0.0.0.0", port),
         NyalaHandler
     )
 
-
-    print(
-        "NYALA MARKET SERVER"
-    )
+    print("NYALA MARKET SERVER")
 
     print(
         "Listening on 0.0.0.0:"
@@ -597,5 +417,9 @@ if __name__ == "__main__":
         + PRICES_FILE
     )
 
+    print(
+        "History file: "
+        + HISTORY_FILE
+    )
 
     server.serve_forever()
