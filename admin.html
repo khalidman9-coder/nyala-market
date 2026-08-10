@@ -2,302 +2,986 @@
 <html lang="ar" dir="rtl">
 
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
 <title>إدارة بورصة نيالا</title>
 
 <style>
 
+* {
+    box-sizing: border-box;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background: #f2f2f2;
+
     margin: 0;
+
+    padding: 0;
+
+    font-family:
+        Arial,
+        Tahoma,
+        sans-serif;
+
+    background: #f4f6f8;
+
+    color: #17202a;
+
+}
+
+.container {
+
+    width: 100%;
+
+    max-width: 520px;
+
+    margin: auto;
+
     padding: 15px;
+
 }
 
-.box {
+
+/* =========================
+   Header
+========================= */
+
+.header {
+
+    background:
+        linear-gradient(
+            135deg,
+            #111827,
+            #26364d
+        );
+
+    color: white;
+
+    padding: 23px 18px;
+
+    border-radius: 22px;
+
+    margin-bottom: 15px;
+
+    box-shadow:
+        0 8px 25px
+        rgba(0,0,0,0.12);
+
+}
+
+.header h1 {
+
+    margin: 0;
+
+    font-size: 24px;
+
+}
+
+.header p {
+
+    margin: 7px 0 0;
+
+    color: #d1d5db;
+
+    font-size: 13px;
+
+}
+
+
+/* =========================
+   Login
+========================= */
+
+.card {
+
     background: white;
-    max-width: 500px;
-    margin: 40px auto;
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+
+    border-radius: 20px;
+
+    padding: 20px;
+
+    margin-bottom: 15px;
+
+    box-shadow:
+        0 4px 18px
+        rgba(0,0,0,0.07);
+
 }
 
-h1, h2 {
-    text-align: center;
+.title {
+
+    font-size: 19px;
+
+    font-weight: bold;
+
+    margin-bottom: 18px;
+
+}
+
+
+/* =========================
+   Inputs
+========================= */
+
+label {
+
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #6b7280;
+
+    font-size: 13px;
+
 }
 
 input {
+
     width: 100%;
-    box-sizing: border-box;
-    padding: 13px;
-    margin: 8px 0;
-    font-size: 17px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
+
+    padding: 14px;
+
+    border: 1px solid #d9dee5;
+
+    border-radius: 13px;
+
+    font-size: 16px;
+
+    margin-bottom: 14px;
+
+    outline: none;
+
+    background: #fafafa;
+
 }
 
+input:focus {
+
+    border-color: #111827;
+
+    background: white;
+
+}
+
+
+/* =========================
+   Buttons
+========================= */
+
 button {
+
     width: 100%;
-    padding: 14px;
-    margin-top: 10px;
-    font-size: 17px;
-    font-weight: bold;
+
     border: none;
-    border-radius: 8px;
-    background: #1f2937;
+
+    border-radius: 14px;
+
+    padding: 15px;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+}
+
+.login-btn {
+
+    background: #111827;
+
     color: white;
+
+}
+
+.update-btn {
+
+    background: #15803d;
+
+    color: white;
+
+    margin-top: 5px;
+
+}
+
+.logout-btn {
+
+    background: #f3f4f6;
+
+    color: #374151;
+
+    margin-top: 10px;
+
+}
+
+
+/* =========================
+   Status
+========================= */
+
+.status {
+
+    text-align: center;
+
+    padding: 12px;
+
+    border-radius: 13px;
+
+    margin-bottom: 15px;
+
+    font-size: 14px;
+
+    display: none;
+
+}
+
+.success {
+
+    background: #dcfce7;
+
+    color: #166534;
+
 }
 
 .error {
-    color: red;
-    text-align: center;
-    margin-top: 10px;
+
+    background: #fee2e2;
+
+    color: #991b1b;
+
 }
 
-#adminPanel {
+
+/* =========================
+   Price boxes
+========================= */
+
+.price-section {
+
     display: none;
+
 }
 
-.card {
-    background: white;
-    padding: 18px;
-    margin-bottom: 15px;
-    border-radius: 15px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+.price-group {
+
+    border: 1px solid #edf0f2;
+
+    border-radius: 16px;
+
+    padding: 15px;
+
+    margin-bottom: 13px;
+
 }
 
-label {
-    display: block;
-    margin-top: 12px;
+.price-group-title {
+
+    font-size: 17px;
+
     font-weight: bold;
+
+    margin-bottom: 13px;
+
 }
 
-#message {
+
+/* =========================
+   Footer
+========================= */
+
+.footer {
+
     text-align: center;
-    margin-top: 15px;
-    font-weight: bold;
+
+    color: #9ca3af;
+
+    font-size: 11px;
+
+    padding: 15px 0 25px;
+
 }
 
 </style>
+
 </head>
+
 
 <body>
 
-<div class="box" id="loginBox">
 
-    <h1>بورصة نيالا</h1>
+<div class="container">
 
-    <h2>تسجيل الدخول</h2>
 
-    <input id="username"
-           type="text"
-           placeholder="اسم المستخدم">
+<!-- =====================
+     Header
+====================== -->
 
-    <input id="password"
-           type="password"
-           placeholder="كلمة المرور">
+<div class="header">
 
-    <button onclick="login()">
-        دخول
-    </button>
+    <h1>
+        ⚙️ إدارة بورصة نيالا
+    </h1>
 
-    <div class="error" id="loginError"></div>
+    <p>
+        لوحة التحكم في أسعار السوق
+    </p>
 
 </div>
 
 
-<div id="adminPanel">
+<!-- =====================
+     Status
+====================== -->
 
-    <div class="box">
+<div id="status"
+     class="status">
+</div>
 
-        <h1>إدارة بورصة نيالا</h1>
 
-        <p style="text-align:center;">
-            تحديث أسعار السوق
-        </p>
+<!-- =====================
+     Login
+====================== -->
 
+<div id="loginSection"
+     class="card">
+
+    <div class="title">
+        🔐 تسجيل الدخول
     </div>
+
+
+    <label>
+        اسم المستخدم
+    </label>
+
+    <input
+        id="username"
+        type="text"
+        autocomplete="username"
+        placeholder="اسم المستخدم">
+
+
+    <label>
+        كلمة المرور
+    </label>
+
+    <input
+        id="password"
+        type="password"
+        autocomplete="current-password"
+        placeholder="كلمة المرور">
+
+
+    <button
+        class="login-btn"
+        onclick="login()">
+
+        دخول
+
+    </button>
+
+</div>
+
+
+<!-- =====================
+     Price Section
+====================== -->
+
+<div id="priceSection"
+     class="price-section">
 
 
     <div class="card">
 
-        <h2>🥇 الذهب</h2>
-
-        <label>سعر الشراء</label>
-
-        <input id="goldBuy"
-               type="number"
-               value="4300">
-
-        <label>سعر البيع</label>
-
-        <input id="goldSell"
-               type="number"
-               value="4350">
-
-    </div>
+        <div class="title">
+            📊 تحديث أسعار السوق
+        </div>
 
 
-    <div class="card">
+        <!-- الذهب -->
 
-        <h2>💵 الدولار</h2>
+        <div class="price-group">
 
-        <label>سعر الشراء</label>
-
-        <input id="dollarBuy"
-               type="number"
-               value="4080">
-
-        <label>سعر البيع</label>
-
-        <input id="dollarSell"
-               type="number"
-               value="4100">
-
-    </div>
+            <div class="price-group-title">
+                🥇 الذهب
+            </div>
 
 
-    <div class="card">
+            <label>
+                سعر الشراء
+            </label>
 
-        <h2>⛽ الوقود</h2>
-
-        <label>السعر</label>
-
-        <input id="fuel"
-               type="number"
-               value="1400">
-
-    </div>
+            <input
+                id="goldBuy"
+                type="text"
+                inputmode="decimal"
+                placeholder="مثال: 4350">
 
 
-    <div class="box">
+            <label>
+                سعر البيع
+            </label>
 
-        <button onclick="updatePrices()">
-            تحديث الأسعار
+            <input
+                id="goldSell"
+                type="text"
+                inputmode="decimal"
+                placeholder="مثال: 4370">
+
+        </div>
+
+
+        <!-- الدولار -->
+
+        <div class="price-group">
+
+            <div class="price-group-title">
+                💵 الدولار
+            </div>
+
+
+            <label>
+                سعر الشراء
+            </label>
+
+            <input
+                id="dollarBuy"
+                type="text"
+                inputmode="decimal"
+                placeholder="مثال: 4250">
+
+
+            <label>
+                سعر البيع
+            </label>
+
+            <input
+                id="dollarSell"
+                type="text"
+                inputmode="decimal"
+                placeholder="مثال: 4280">
+
+        </div>
+
+
+        <!-- الوقود -->
+
+        <div class="price-group">
+
+            <div class="price-group-title">
+                ⛽ الوقود
+            </div>
+
+
+            <label>
+                السعر
+            </label>
+
+            <input
+                id="fuel"
+                type="text"
+                inputmode="decimal"
+                placeholder="مثال: 1400">
+
+        </div>
+
+
+        <button
+            class="update-btn"
+            onclick="updatePrices()">
+
+            💾 تحديث الأسعار
+
         </button>
 
-        <div id="message"></div>
+
+        <button
+            class="logout-btn"
+            onclick="logout()">
+
+            تسجيل الخروج
+
+        </button>
 
     </div>
+
+</div>
+
+
+<div class="footer">
+
+    بورصة نيالا © 2026
+
+</div>
+
 
 </div>
 
 
 <script>
 
-let loggedUsername = "";
-let loggedPassword = "";
+/* =========================
+   حالة تسجيل الدخول
+========================= */
 
+let loggedIn = false;
+
+
+/* =========================
+   إظهار الرسالة
+========================= */
+
+function showStatus(
+    message,
+    type
+) {
+
+    const status =
+        document.getElementById(
+            "status"
+        );
+
+
+    status.textContent =
+        message;
+
+
+    status.className =
+        "status " + type;
+
+
+    status.style.display =
+        "block";
+
+}
+
+
+/* =========================
+   تسجيل الدخول
+========================= */
 
 function login() {
 
-    loggedUsername =
-        document.getElementById("username").value;
+    const username =
+        document.getElementById(
+            "username"
+        ).value.trim();
 
-    loggedPassword =
-        document.getElementById("password").value;
+
+    const password =
+        document.getElementById(
+            "password"
+        ).value;
 
 
-    /*
-      تسجيل الدخول المحلي للتجربة.
-      الخادم هو الذي يحمي عملية تحديث الأسعار.
-    */
+    if (!username || !password) {
 
-    if (
-        loggedUsername !== "" &&
-        loggedPassword !== ""
-    ) {
+        showStatus(
+            "أدخل اسم المستخدم وكلمة المرور",
+            "error"
+        );
 
-        document.getElementById("loginBox")
-            .style.display = "none";
-
-        document.getElementById("adminPanel")
-            .style.display = "block";
+        return;
 
     }
 
-    else {
 
-        document.getElementById("loginError")
-            .textContent =
-            "أدخل اسم المستخدم وكلمة المرور";
+    /*
+       نخزن البيانات في الذاكرة
+       فقط أثناء فتح الصفحة
+    */
+
+    sessionStorage.setItem(
+        "nyala_username",
+        username
+    );
+
+
+    sessionStorage.setItem(
+        "nyala_password",
+        password
+    );
+
+
+    loggedIn = true;
+
+
+    document.getElementById(
+        "loginSection"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "priceSection"
+    ).style.display =
+        "block";
+
+
+    showStatus(
+        "تم تسجيل الدخول",
+        "success"
+    );
+
+
+    loadCurrentPrices();
+
+}
+
+
+/* =========================
+   تحميل الأسعار الحالية
+========================= */
+
+async function loadCurrentPrices() {
+
+    try {
+
+        const response =
+            await fetch(
+                "/prices.txt?t=" +
+                Date.now(),
+                {
+                    cache: "no-store"
+                }
+            );
+
+
+        if (!response.ok) {
+            return;
+        }
+
+
+        const text =
+            await response.text();
+
+
+        const lines =
+            text.split(/\r?\n/);
+
+
+        const prices = {};
+
+
+        lines.forEach(
+            function(line) {
+
+                const index =
+                    line.indexOf(":");
+
+
+                if (index === -1) {
+                    return;
+                }
+
+
+                const key =
+                    line
+                    .substring(
+                        0,
+                        index
+                    )
+                    .trim();
+
+
+                const value =
+                    line
+                    .substring(
+                        index + 1
+                    )
+                    .trim();
+
+
+                prices[key] =
+                    value;
+
+            }
+        );
+
+
+        document.getElementById(
+            "goldBuy"
+        ).value =
+            prices["Gold BUY"] || "";
+
+
+        document.getElementById(
+            "goldSell"
+        ).value =
+            prices["Gold SELL"] || "";
+
+
+        document.getElementById(
+            "dollarBuy"
+        ).value =
+            prices["Dollar BUY"] || "";
+
+
+        document.getElementById(
+            "dollarSell"
+        ).value =
+            prices["Dollar SELL"] || "";
+
+
+        document.getElementById(
+            "fuel"
+        ).value =
+            prices["Fuel"] || "";
+
+
+    } catch (error) {
+
+        console.error(error);
 
     }
 
 }
 
 
+/* =========================
+   تحديث الأسعار
+========================= */
+
 async function updatePrices() {
+
+
+    if (!loggedIn) {
+
+        showStatus(
+            "يجب تسجيل الدخول أولاً",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const goldBuy =
+        document.getElementById(
+            "goldBuy"
+        ).value.trim();
+
+
+    const goldSell =
+        document.getElementById(
+            "goldSell"
+        ).value.trim();
+
+
+    const dollarBuy =
+        document.getElementById(
+            "dollarBuy"
+        ).value.trim();
+
+
+    const dollarSell =
+        document.getElementById(
+            "dollarSell"
+        ).value.trim();
+
+
+    const fuel =
+        document.getElementById(
+            "fuel"
+        ).value.trim();
+
+
+    if (
+        !goldBuy ||
+        !goldSell ||
+        !dollarBuy ||
+        !dollarSell ||
+        !fuel
+    ) {
+
+        showStatus(
+            "أكمل جميع الأسعار",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const username =
+        sessionStorage.getItem(
+            "nyala_username"
+        );
+
+
+    const password =
+        sessionStorage.getItem(
+            "nyala_password"
+        );
+
 
     const data = {
 
         goldBuy:
-            document.getElementById("goldBuy").value,
+            goldBuy,
 
         goldSell:
-            document.getElementById("goldSell").value,
+            goldSell,
 
         dollarBuy:
-            document.getElementById("dollarBuy").value,
+            dollarBuy,
 
         dollarSell:
-            document.getElementById("dollarSell").value,
+            dollarSell,
 
         fuel:
-            document.getElementById("fuel").value
+            fuel
 
     };
 
 
     try {
 
+        showStatus(
+            "جاري تحديث الأسعار...",
+            "success"
+        );
+
+
         const response =
-            await fetch("/update", {
+            await fetch(
+                "/update",
+                {
 
-                method: "POST",
+                    method:
+                        "POST",
 
-                headers: {
+                    headers: {
 
-                    "Content-Type":
-                        "application/json",
+                        "Content-Type":
+                            "application/json",
 
-                    "X-Username":
-                        loggedUsername,
+                        "X-Username":
+                            username,
 
-                    "X-Password":
-                        loggedPassword
+                        "X-Password":
+                            password
 
-                },
+                    },
 
-                body: JSON.stringify(data)
+                    body:
+                        JSON.stringify(
+                            data
+                        )
 
-            });
+                }
+            );
 
 
         const result =
             await response.text();
 
 
-        document.getElementById("message")
-            .textContent = result;
+        if (
+            response.status === 403
+        ) {
 
+            showStatus(
+                "بيانات الدخول غير صحيحة",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        if (!response.ok) {
+
+            showStatus(
+                "فشل تحديث الأسعار: " +
+                result,
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        showStatus(
+            "✅ تم تحديث الأسعار بنجاح",
+            "success"
+        );
+
+
+    } catch (error) {
+
+        console.error(error);
+
+
+        showStatus(
+            "تعذر الاتصال بالخادم",
+            "error"
+        );
 
     }
 
-    catch (error) {
+}
 
-        document.getElementById("message")
-            .textContent =
-            "حدث خطأ أثناء تحديث الأسعار";
 
-    }
+/* =========================
+   تسجيل الخروج
+========================= */
+
+function logout() {
+
+    sessionStorage.removeItem(
+        "nyala_username"
+    );
+
+    sessionStorage.removeItem(
+        "nyala_password"
+    );
+
+
+    loggedIn = false;
+
+
+    document.getElementById(
+        "loginSection"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "priceSection"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "username"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "password"
+    ).value =
+        "";
+
+
+    showStatus(
+        "تم تسجيل الخروج",
+        "success"
+    );
 
 }
 
 </script>
 
 </body>
+
 </html>
