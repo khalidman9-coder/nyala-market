@@ -4,7 +4,9 @@ import os
 from datetime import datetime
 from urllib.parse import parse_qs
 
-from config import USERNAME, PASSWORD
+import os
+USERNAME = os.environ.get("USERNAME")
+PASSWORD = os.environ.get("PASSWORD")
 
 
 class NyalaHandler(BaseHTTPRequestHandler):
