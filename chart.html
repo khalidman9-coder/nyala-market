@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color"
+      content="#111827">
+
+<title>تحليل أسعار بورصة نيالا</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 14px;
+    font-family: Arial, Tahoma, sans-serif;
+    background: #f3f5f7;
+    color: #17202a;
+}
+
+.container {
+    width: 100%;
+    max-width: 650px;
+    margin: auto;
+}
+
+.header {
+    background: linear-gradient(
+        135deg,
+        #111827,
+        #26364d
+    );
+
+    color: white;
+
+    padding: 25px 18px;
+
+    border-radius: 22px;
+
+    margin-bottom: 15px;
+
+    text-align: center;
+}
+
+.header h1 {
+    margin: 0;
+
+    font-size: 25px;
+}
+
+.header p {
+    margin: 8px 0 0;
+
+    color: #d1d5db;
+
+    font-size: 13px;
+}
+
+
+/* اختيار السعر */
+
+.selector {
+    background: white;
+
+    border-radius: 18px;
+
+    padding: 16px;
+
+    margin-bottom: 15px;
+
+    box-shadow:
+        0 4px 15px
+        rgba(0,0,0,.06);
+}
+
+.selector-title {
+    font-weight: bold;
+
+    margin-bottom: 10px;
+}
+
+select {
+    width: 100%;
+
+    padding: 13px;
+
+    border-radius: 12px;
+
+    border: 1px solid #ddd;
+
+    background: white;
+
+    font-size: 16px;
+}
+
+
+/* الرسم */
+
+.chart-card {
+    background: white;
+
+    border-radius: 20px;
+
+    padding: 15px;
+
+    margin-bottom: 15px;
+
+    box-shadow:
+        0 4px 15px
+        rgba(0,0,0,.06);
+}
+
+.chart-container {
+    position: relative;
+
+    height: 330px;
+}
+
+
+/* الحالة */
+
+.status {
+    background: white;
+
+    padding: 14px;
+
+    border-radius: 15px;
+
+    text-align: center;
+
+    color: #6b7280;
+
+    font-size: 13px;
+
+    margin-bottom: 15px;
+}
+
+
+.refresh {
+    width: 100%;
+
+    border: none;
+
+    background: #111827;
+
+    color: white;
+
+    padding: 14px;
+
+    border-radius: 15px;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    margin-bottom: 15px;
+}
+
+
+.footer {
+    text-align: center;
+
+    color: #9ca3af;
+
+    font-size: 11px;
+
+    padding: 10px 0 25px;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+<div class="header">
+
+    <h1>📈 تحليل أسعار بورصة نيالا</h1>
+
+    <p>
+        حركة الأسعار مع مرور الوقت
+    </p>
+
+</div>
+
+
+<div class="selector">
+
+    <div class="selector-title">
+        اختر السعر
+    </div>
+
+    <select id="priceType">
+
+        <option value="goldBuy">
+            🥇 الذهب شراء
+        </option>
+
+        <option value="goldSell">
+            🥇 الذهب بيع
+        </option>
+
+        <option value="dollarBuy">
+            💵 الدولار شراء
+        </option>
+
+        <option value="dollarSell">
+            💵 الدولار بيع
+        </option>
+
+        <option value="diesel">
+            ⛽ الديزل
+        </option>
+
+        <option value="gasoline">
+            🚗 البنزين
+        </option>
+
+    </select>
+
+</div>
+
+
+<div
+    id="status"
+    class="status">
+
+    جاري تحميل البيانات...
+
+</div>
+
+
+<div class="chart-card">
+
+    <div class="chart-container">
+
+        <canvas id="priceChart"></canvas>
+
+    </div>
+
+</div>
+
+
+<button
+    class="refresh"
+    onclick="loadHistory()">
+
+    🔄 تحديث الرسم
+
+</button>
+
+
+<div class="footer">
+
+    بورصة نيالا © 2026
+
+</div>
+
+
+</div>
+
+
+<script>
+
+let historyData = [];
+
+let chart = null;
+
+
+/* =========================
+   قراءة history.txt
+========================= */
+
+async function loadHistory() {
+
+    const status =
+        document.getElementById(
+            "status"
+        );
+
+
+    try {
+
+        status.textContent =
+            "جاري تحميل البيانات...";
+
+
+        const response =
+            await fetch(
+                "/history.txt?t=" +
+                Date.now(),
+                {
+                    cache: "no-store"
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "HTTP " +
+                response.status
+            );
+
+        }
+
+
+        const text =
+            await response.text();
+
+
+        const lines =
+            text
+            .split(/\r?\n/)
+            .filter(
+                line =>
+                    line.trim() !== ""
+            );
+
+
+        historyData = [];
+
+
+        lines.forEach(
+            function(line) {
+
+                const parts =
+                    line.split(" | ");
+
+
+                if (
+                    parts.length < 5
+                ) {
+
+                    return;
+
+                }
+
+
+                const time =
+                    parts[0];
+
+
+                const gold =
+                    parts[1]
+                    .replace(
+                        "Gold:",
+                        ""
+                    )
+                    .trim();
+
+
+                const dollar =
+                    parts[2]
+                    .replace(
+                        "Dollar:",
+                        ""
+                    )
+                    .trim();
+
+
+                const diesel =
+                    parts[3]
+                    .replace(
+                        "Diesel:",
+                        ""
+                    )
+                    .trim();
+
+
+                const gasoline =
+                    parts[4]
+                    .replace(
+                        "Gasoline:",
+                        ""
+                    )
+                    .trim();
+
+
+                const goldParts =
+                    gold.split("/");
+
+
+                const dollarParts =
+                    dollar.split("/");
+
+
+                historyData.push({
+
+                    time: time,
+
+                    goldBuy:
+                        Number(
+                            goldParts[0]
+                        ),
+
+                    goldSell:
+                        Number(
+                            goldParts[1]
+                        ),
+
+                    dollarBuy:
+                        Number(
+                            dollarParts[0]
+                        ),
+
+                    dollarSell:
+                        Number(
+                            dollarParts[1]
+                        ),
+
+                    diesel:
+                        Number(
+                            diesel
+                        ),
+
+                    gasoline:
+                        Number(
+                            gasoline
+                        )
+
+                });
+
+            }
+        );
+
+
+        status.textContent =
+            historyData.length +
+            " تحديثات محفوظة";
+
+
+        drawChart();
+
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        status.textContent =
+            "تعذر تحميل بيانات الأسعار";
+
+    }
+
+}
+
+
+/* =========================
+   رسم البيانات
+========================= */
+
+function drawChart() {
+
+    const type =
+        document.getElementById(
+            "priceType"
+        ).value;
+
+
+    if (
+        historyData.length === 0
+    ) {
+
+        return;
+
+    }
+
+
+    const labels =
+        historyData.map(
+            item =>
+                item.time
+                .substring(11,16)
+        );
+
+
+    const values =
+        historyData.map(
+            item =>
+                item[type]
+        );
+
+
+    const canvas =
+        document.getElementById(
+            "priceChart"
+        );
+
+
+    if (chart) {
+
+        chart.destroy();
+
+    }
+
+
+    chart =
+        new Chart(
+            canvas,
+            {
+
+                type: "line",
+
+                data: {
+
+                    labels: labels,
+
+                    datasets: [{
+
+                        label:
+                            getLabel(type),
+
+                        data: values,
+
+                        tension: 0.25,
+
+                        borderWidth: 3,
+
+                        pointRadius: 4,
+
+                        fill: false
+
+                    }]
+
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    plugins: {
+
+                        legend: {
+
+                            display: true
+
+                        }
+
+                    },
+
+                    scales: {
+
+                        x: {
+
+                            title: {
+
+                                display: true,
+
+                                text:
+                                    "الوقت"
+
+                            }
+
+                        },
+
+                        y: {
+
+                            title: {
+
+                                display: true,
+
+                                text:
+                                    "السعر"
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+        );
+
+}
+
+
+/* =========================
+   أسماء الأسعار
+========================= */
+
+function getLabel(type) {
+
+    const labels = {
+
+        goldBuy:
+            "🥇 الذهب شراء",
+
+        goldSell:
+            "🥇 الذهب بيع",
+
+        dollarBuy:
+            "💵 الدولار شراء",
+
+        dollarSell:
+            "💵 الدولار بيع",
+
+        diesel:
+            "⛽ الديزل",
+
+        gasoline:
+            "🚗 البنزين"
+
+    };
+
+
+    return labels[type];
+
+}
+
+
+/* =========================
+   تغيير الاختيار
+========================= */
+
+document
+    .getElementById(
+        "priceType"
+    )
+    .addEventListener(
+        "change",
+        drawChart
+    );
+
+
+/* تشغيل */
+
+loadHistory();
+
+</script>
+
+</body>
+
+</html>
