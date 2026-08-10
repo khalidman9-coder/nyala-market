@@ -5,7 +5,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#111827">
-
 <title>تحليل أسعار بورصة نيالا</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -18,151 +17,139 @@
 body {
     margin: 0;
     padding: 14px;
-    font-family: Arial, Tahoma, sans-serif;
-    background: #f3f5f7;
-    color: #17202a;
+    background: #f3f4f6;
+    color: #111827;
+    font-family: Arial, sans-serif;
 }
 
 .container {
-    width: 100%;
-    max-width: 650px;
+    max-width: 1000px;
     margin: auto;
 }
 
 .header {
-    background: linear-gradient(135deg, #111827, #26364d);
+    background: #111827;
     color: white;
-    padding: 25px 18px;
-    border-radius: 22px;
+    padding: 20px;
+    border-radius: 14px;
     margin-bottom: 15px;
-    text-align: center;
 }
 
 .header h1 {
-    margin: 0;
-    font-size: 25px;
+    margin: 0 0 7px;
+    font-size: 24px;
 }
 
 .header p {
-    margin: 8px 0 0;
-    color: #d1d5db;
-    font-size: 13px;
+    margin: 0;
+    opacity: .8;
 }
 
-.selector {
+.controls {
     background: white;
-    border-radius: 18px;
-    padding: 16px;
+    padding: 15px;
+    border-radius: 14px;
     margin-bottom: 15px;
-    box-shadow: 0 4px 15px rgba(0,0,0,.06);
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
 }
 
-.selector-title {
+.controls label {
+    display: block;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 select {
     width: 100%;
-    padding: 13px;
-    border-radius: 12px;
-    border: 1px solid #ddd;
-    background: white;
+    padding: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 9px;
     font-size: 16px;
+    background: white;
+}
+
+.chart-box {
+    background: white;
+    padding: 15px;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+}
+
+canvas {
+    width: 100% !important;
+    height: 420px !important;
 }
 
 .status {
-    background: white;
-    padding: 14px;
-    border-radius: 15px;
+    margin-top: 12px;
     text-align: center;
     color: #6b7280;
-    font-size: 13px;
-    margin-bottom: 15px;
+    font-size: 14px;
 }
 
-.chart-card {
-    background: white;
-    border-radius: 20px;
-    padding: 15px;
-    margin-bottom: 15px;
-    box-shadow: 0 4px 15px rgba(0,0,0,.06);
-}
-
-.chart-container {
-    position: relative;
-    height: 330px;
-}
-
-.refresh {
-    width: 100%;
-    border: none;
+.back {
+    display: inline-block;
+    margin-top: 15px;
+    text-decoration: none;
     background: #111827;
     color: white;
-    padding: 14px;
-    border-radius: 15px;
-    font-size: 15px;
-    font-weight: bold;
-    margin-bottom: 15px;
+    padding: 10px 16px;
+    border-radius: 9px;
 }
 
-.footer {
-    text-align: center;
-    color: #9ca3af;
-    font-size: 11px;
-    padding: 10px 0 25px;
+@media (max-width: 600px) {
+    body {
+        padding: 9px;
+    }
+
+    .header h1 {
+        font-size: 20px;
+    }
+
+    canvas {
+        height: 340px !important;
+    }
 }
 </style>
-
 </head>
 
 <body>
 
 <div class="container">
 
-<div class="header">
-    <h1>📈 تحليل أسعار بورصة نيالا</h1>
-    <p>حركة الأسعار مع مرور الوقت</p>
-</div>
-
-<div class="selector">
-
-    <div class="selector-title">
-        اختر السعر
+    <div class="header">
+        <h1>📊 تحليل أسعار بورصة نيالا</h1>
+        <p>متابعة حركة الأسعار المسجلة عبر الزمن</p>
     </div>
 
-    <select id="priceType">
+    <div class="controls">
 
-        <option value="goldBuy">🥇 الذهب شراء</option>
-        <option value="goldSell">🥇 الذهب بيع</option>
-        <option value="dollarBuy">💵 الدولار شراء</option>
-        <option value="dollarSell">💵 الدولار بيع</option>
-        <option value="diesel">⛽ الديزل</option>
-        <option value="gasoline">🚗 البنزين</option>
+        <label for="marketSelect">
+            اختر السعر المراد تحليله
+        </label>
 
-    </select>
+        <select id="marketSelect">
+            <option value="gold">🥇 الذهب</option>
+            <option value="dollar">💵 الدولار</option>
+            <option value="diesel">⛽ الديزل</option>
+            <option value="gasoline">🚗 البنزين</option>
+        </select>
 
-</div>
+    </div>
 
-<div id="status" class="status">
-    جاري تحميل البيانات...
-</div>
+    <div class="chart-box">
 
-<div class="chart-card">
-
-    <div class="chart-container">
         <canvas id="priceChart"></canvas>
+
+        <div class="status" id="status">
+            جارٍ تحميل البيانات...
+        </div>
+
     </div>
 
-</div>
-
-<button class="refresh" onclick="loadHistory()">
-    🔄 تحديث الرسم
-</button>
-
-<div class="footer">
-    بورصة نيالا © 2026
-</div>
+    <a class="back" href="/">
+        العودة إلى الصفحة الرئيسية
+    </a>
 
 </div>
 
@@ -171,251 +158,273 @@ select {
 let historyData = [];
 let chart = null;
 
+const select = document.getElementById("marketSelect");
+const statusBox = document.getElementById("status");
 
 async function loadHistory() {
 
-    const status =
-        document.getElementById("status");
-
     try {
 
-        status.textContent =
-            "جاري تحميل البيانات...";
-
-        const response =
-            await fetch(
-                "/history.txt?t=" + Date.now(),
-                {
-                    cache: "no-store"
-                }
-            );
+        const response = await fetch(
+            "/history.txt?time=" + Date.now(),
+            {
+                cache: "no-store"
+            }
+        );
 
         if (!response.ok) {
-            throw new Error(
-                "HTTP " + response.status
-            );
+            throw new Error("HTTP " + response.status);
         }
 
-        const text =
-            await response.text();
+        const text = await response.text();
 
-        const lines =
-            text
-            .split(/\r?\n/)
-            .filter(
-                line => line.trim() !== ""
-            );
+        historyData = parseHistory(text);
 
-        historyData = [];
+        if (!historyData.length) {
 
-        lines.forEach(function(line) {
+            statusBox.textContent =
+                "لا توجد بيانات تاريخية حتى الآن";
 
-            const parts =
-                line.split(" | ");
-
-            if (parts.length < 5) {
-                return;
-            }
-
-            const time = parts[0];
-
-            const gold =
-                parts[1]
-                .replace("Gold:", "")
-                .trim();
-
-            const dollar =
-                parts[2]
-                .replace("Dollar:", "")
-                .trim();
-
-            const diesel =
-                parts[3]
-                .replace("Diesel:", "")
-                .trim();
-
-            const gasoline =
-                parts[4]
-                .replace("Gasoline:", "")
-                .trim();
-
-            const goldParts =
-                gold.split("/");
-
-            const dollarParts =
-                dollar.split("/");
-
-            historyData.push({
-
-                time: time,
-
-                goldBuy:
-                    Number(goldParts[0]),
-
-                goldSell:
-                    Number(goldParts[1]),
-
-                dollarBuy:
-                    Number(dollarParts[0]),
-
-                dollarSell:
-                    Number(dollarParts[1]),
-
-                diesel:
-                    Number(diesel),
-
-                gasoline:
-                    Number(gasoline)
-
-            });
-
-        });
-
-        status.textContent =
-            historyData.length +
-            " تحديثات محفوظة";
+            return;
+        }
 
         drawChart();
 
-    }
-
-    catch (error) {
+    } catch (error) {
 
         console.error(error);
 
-        status.textContent =
-            "تعذر تحميل بيانات الأسعار";
+        statusBox.textContent =
+            "حدث خطأ أثناء تحميل بيانات الأسعار";
 
     }
 
+}
+
+
+function parseHistory(text) {
+
+    const lines = text
+        .split(/\r?\n/)
+        .map(line => line.trim())
+        .filter(line => line.length > 0);
+
+    const result = [];
+
+    for (const line of lines) {
+
+        const match = line.match(
+            /^(.+?)\s+\|\s+Gold:\s*([\d.]+)\/([\d.]+)\s+\|\s+Dollar:\s*([\d.]+)\/([\d.]+)\s+\|\s+Diesel:\s*([\d.]+)\s+\|\s+Gasoline:\s*([\d.]+)/
+        );
+
+        if (!match) {
+            continue;
+        }
+
+        result.push({
+
+            time: match[1],
+
+            goldBuy: Number(match[2]),
+            goldSell: Number(match[3]),
+
+            dollarBuy: Number(match[4]),
+            dollarSell: Number(match[5]),
+
+            diesel: Number(match[6]),
+            gasoline: Number(match[7])
+
+        });
+
+    }
+
+    return result;
 }
 
 
 function drawChart() {
 
-    const type =
-        document.getElementById(
-            "priceType"
-        ).value;
+    const type = select.value;
 
-    if (historyData.length === 0) {
-        return;
+    let labels = [];
+    let datasets = [];
+
+    if (type === "gold") {
+
+        labels = historyData.map(item => item.time);
+
+        datasets = [
+
+            {
+                label: "الذهب شراء",
+                data: historyData.map(item => item.goldBuy),
+                tension: 0.25
+            },
+
+            {
+                label: "الذهب بيع",
+                data: historyData.map(item => item.goldSell),
+                tension: 0.25
+            }
+
+        ];
+
     }
 
-    const labels =
-        historyData.map(
-            item => item.time.substring(11, 16)
-        );
 
-    const values =
-        historyData.map(
-            item => item[type]
-        );
+    if (type === "dollar") {
 
-    const canvas =
-        document.getElementById(
-            "priceChart"
-        );
+        labels = historyData.map(item => item.time);
+
+        datasets = [
+
+            {
+                label: "الدولار شراء",
+                data: historyData.map(item => item.dollarBuy),
+                tension: 0.25
+            },
+
+            {
+                label: "الدولار بيع",
+                data: historyData.map(item => item.dollarSell),
+                tension: 0.25
+            }
+
+        ];
+
+    }
+
+
+    if (type === "diesel") {
+
+        labels = historyData.map(item => item.time);
+
+        datasets = [
+
+            {
+                label: "الديزل",
+                data: historyData.map(item => item.diesel),
+                tension: 0.25
+            }
+
+        ];
+
+    }
+
+
+    if (type === "gasoline") {
+
+        labels = historyData.map(item => item.time);
+
+        datasets = [
+
+            {
+                label: "البنزين",
+                data: historyData.map(item => item.gasoline),
+                tension: 0.25
+            }
+
+        ];
+
+    }
+
 
     if (chart) {
         chart.destroy();
     }
 
-    chart =
-        new Chart(canvas, {
 
-            type: "line",
+    const ctx =
+        document.getElementById("priceChart")
+        .getContext("2d");
 
-            data: {
 
-                labels: labels,
+    chart = new Chart(ctx, {
 
-                datasets: [{
+        type: "line",
 
-                    label: getLabel(type),
+        data: {
+            labels: labels,
+            datasets: datasets
+        },
 
-                    data: values,
+        options: {
 
-                    tension: 0.25,
+            responsive: true,
 
-                    borderWidth: 3,
+            maintainAspectRatio: false,
 
-                    pointRadius: 4,
+            interaction: {
+                mode: "index",
+                intersect: false
+            },
 
-                    fill: false
+            plugins: {
 
-                }]
+                legend: {
+                    display: true,
+                    position: "top"
+                },
+
+                tooltip: {
+                    callbacks: {
+
+                        title: function(items) {
+
+                            return items[0].label;
+
+                        },
+
+                        label: function(context) {
+
+                            return (
+                                context.dataset.label +
+                                ": " +
+                                context.parsed.y
+                            );
+
+                        }
+
+                    }
+                }
 
             },
 
-            options: {
+            scales: {
 
-                responsive: true,
+                x: {
 
-                maintainAspectRatio: false,
-
-                plugins: {
-
-                    legend: {
-                        display: true
+                    ticks: {
+                        maxRotation: 45,
+                        minRotation: 0
                     }
 
                 },
 
-                scales: {
+                y: {
 
-                    x: {
-                        title: {
-                            display: true,
-                            text: "الوقت"
-                        }
-                    },
-
-                    y: {
-                        title: {
-                            display: true,
-                            text: "السعر"
-                        }
-                    }
+                    beginAtZero: false
 
                 }
 
             }
 
-        });
+        }
+
+    });
+
+
+    statusBox.textContent =
+        "عدد التحديثات المسجلة: " +
+        historyData.length;
 
 }
 
 
-function getLabel(type) {
-
-    const labels = {
-
-        goldBuy: "🥇 الذهب شراء",
-
-        goldSell: "🥇 الذهب بيع",
-
-        dollarBuy: "💵 الدولار شراء",
-
-        dollarSell: "💵 الدولار بيع",
-
-        diesel: "⛽ الديزل",
-
-        gasoline: "🚗 البنزين"
-
-    };
-
-    return labels[type];
-
-}
-
-
-document
-    .getElementById("priceType")
-    .addEventListener(
-        "change",
-        drawChart
-    );
+select.addEventListener(
+    "change",
+    drawChart
+);
 
 
 loadHistory();
