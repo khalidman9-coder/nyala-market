@@ -2,8 +2,14 @@
 <html lang="ar" dir="rtl">
 
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color"
+      content="#111827">
 
 <title>بورصة نيالا</title>
 
@@ -15,212 +21,296 @@
 
 body {
     margin: 0;
-    padding: 0;
+    padding: 14px;
     font-family: Arial, Tahoma, sans-serif;
-    background: #f4f6f8;
+    background: #f3f5f7;
     color: #17202a;
 }
-
-/* =========================
-   الصفحة
-========================= */
 
 .container {
     width: 100%;
     max-width: 520px;
     margin: auto;
-    padding: 14px;
 }
 
 /* =========================
-   الهيدر
+   Header
 ========================= */
 
 .header {
-    background: linear-gradient(135deg, #111827, #26364d);
+    background: linear-gradient(
+        135deg,
+        #111827,
+        #26364d
+    );
+
     color: white;
-    padding: 24px 18px;
+
+    text-align: center;
+
+    padding: 25px 18px;
+
     border-radius: 22px;
-    margin-bottom: 15px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
-}
 
-.header-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
+    margin-bottom: 14px;
 
-.logo {
-    width: 48px;
-    height: 48px;
-    background: rgba(255,255,255,0.12);
-    border-radius: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 26px;
+    box-shadow:
+        0 8px 25px
+        rgba(0,0,0,.12);
 }
 
 .header h1 {
     margin: 0;
-    font-size: 25px;
+
+    font-size: 28px;
+
+    font-weight: 800;
 }
 
 .header p {
     margin: 8px 0 0;
+
     color: #d1d5db;
+
     font-size: 14px;
 }
 
+
 /* =========================
-   حالة التحديث
+   Status
 ========================= */
 
 .status {
     background: white;
+
     border-radius: 15px;
+
     padding: 12px;
-    margin-bottom: 14px;
+
     text-align: center;
-    font-size: 14px;
-    color: #15803d;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+
+    margin-bottom: 14px;
+
+    font-size: 13px;
+
+    color: #555;
+
+    box-shadow:
+        0 3px 12px
+        rgba(0,0,0,.05);
 }
 
-.dot {
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    background: #22c55e;
-    border-radius: 50%;
-    margin-left: 5px;
-}
 
 /* =========================
-   البطاقات
+   Cards
 ========================= */
 
 .card {
     background: white;
-    border-radius: 20px;
-    padding: 18px;
-    margin-bottom: 14px;
-    box-shadow: 0 4px 18px rgba(0,0,0,0.07);
-}
 
-.card-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 16px;
+    border-radius: 20px;
+
+    padding: 19px;
+
+    margin-bottom: 14px;
+
+    box-shadow:
+        0 4px 18px
+        rgba(0,0,0,.07);
 }
 
 .card-title {
+    font-size: 20px;
+
+    font-weight: 800;
+
+    margin-bottom: 17px;
+
     display: flex;
+
     align-items: center;
-    gap: 10px;
+
+    gap: 8px;
 }
 
-.icon {
-    width: 43px;
-    height: 43px;
-    border-radius: 13px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 23px;
-    background: #f3f4f6;
-}
-
-.card-title h2 {
-    margin: 0;
-    font-size: 19px;
-}
-
-.card-title span {
-    display: block;
-    margin-top: 3px;
-    font-size: 12px;
-    color: #6b7280;
-}
 
 /* =========================
-   الأسعار
+   Gold / Dollar
 ========================= */
 
 .price-row {
     display: flex;
+
     justify-content: space-between;
+
     align-items: center;
+
     padding: 13px 0;
-    border-top: 1px solid #edf0f2;
+
+    border-bottom:
+        1px solid #edf0f2;
 }
 
-.price-label {
+.price-row:last-child {
+    border-bottom: none;
+}
+
+.label {
     color: #6b7280;
-    font-size: 14px;
+
+    font-size: 15px;
 }
 
-.price-value {
+.value {
     font-size: 21px;
-    font-weight: bold;
+
+    font-weight: 800;
+
     color: #111827;
 }
 
-.currency {
-    font-size: 12px;
-    color: #6b7280;
-    margin-right: 4px;
-}
 
 /* =========================
-   آخر تحديث
+   Fuel cards
 ========================= */
 
-.last-update {
-    text-align: center;
-    color: #6b7280;
-    font-size: 12px;
-    margin: 18px 0;
+.fuel-grid {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 10px;
 }
 
+.fuel-box {
+    background: #f8fafc;
+
+    border: 1px solid #edf0f2;
+
+    border-radius: 16px;
+
+    padding: 16px;
+
+    text-align: center;
+}
+
+.fuel-name {
+    font-size: 15px;
+
+    color: #6b7280;
+
+    margin-bottom: 8px;
+}
+
+.fuel-price {
+    font-size: 22px;
+
+    font-weight: 800;
+
+    color: #111827;
+}
+
+
 /* =========================
-   زر التحديث
+   Last update
+========================= */
+
+.update {
+    background: white;
+
+    border-radius: 17px;
+
+    padding: 15px;
+
+    text-align: center;
+
+    margin-bottom: 14px;
+
+    box-shadow:
+        0 3px 12px
+        rgba(0,0,0,.05);
+
+    color: #6b7280;
+
+    font-size: 13px;
+}
+
+.update strong {
+    color: #111827;
+}
+
+
+/* =========================
+   Refresh button
 ========================= */
 
 .refresh-btn {
     width: 100%;
+
     border: none;
+
     background: #111827;
+
     color: white;
-    padding: 15px;
+
     border-radius: 15px;
-    font-size: 16px;
+
+    padding: 14px;
+
+    font-size: 15px;
+
     font-weight: bold;
+
     cursor: pointer;
 }
 
 .refresh-btn:active {
-    transform: scale(0.98);
+    transform: scale(.98);
 }
 
-.refresh-btn.loading {
-    opacity: 0.7;
-}
 
 /* =========================
-   الفوتر
+   Footer
 ========================= */
 
 .footer {
     text-align: center;
+
     color: #9ca3af;
+
     font-size: 11px;
-    padding: 15px 0 25px;
+
+    padding: 10px 0 25px;
+}
+
+
+/* =========================
+   Mobile
+========================= */
+
+@media (max-width: 360px) {
+
+    body {
+        padding: 10px;
+    }
+
+    .header h1 {
+        font-size: 24px;
+    }
+
+    .value {
+        font-size: 19px;
+    }
+
+    .fuel-price {
+        font-size: 20px;
+    }
+
 }
 
 </style>
+
 </head>
 
 
@@ -228,277 +318,225 @@ body {
 
 <div class="container">
 
-    <!-- =====================
-         الهيدر
-    ====================== -->
 
-    <div class="header">
+<!-- =========================
+     Header
+========================= -->
 
-        <div class="header-top">
+<div class="header">
 
-            <div>
-                <h1>بورصة نيالا</h1>
-                <p>أسعار السوق في نيالا</p>
-            </div>
+    <h1>بورصة نيالا</h1>
 
-            <div class="logo">
-                📊
-            </div>
+    <p>
+        أسعار السوق الآن
+    </p>
 
-        </div>
-
-    </div>
+</div>
 
 
-    <!-- =====================
-         حالة الموقع
-    ====================== -->
+<!-- =========================
+     Status
+========================= -->
 
-    <div class="status" id="status">
+<div
+    id="status"
+    class="status">
 
-        <span class="dot"></span>
+    جاري تحميل الأسعار...
 
-        جاري تحميل الأسعار...
-
-    </div>
-
-
-    <!-- =====================
-         الذهب
-    ====================== -->
-
-    <div class="card">
-
-        <div class="card-header">
-
-            <div class="card-title">
-
-                <div class="icon">
-                    🥇
-                </div>
-
-                <div>
-
-                    <h2>الذهب</h2>
-
-                    <span>
-                        سعر الذهب في السوق
-                    </span>
-
-                </div>
-
-            </div>
-
-        </div>
+</div>
 
 
-        <div class="price-row">
+<!-- =========================
+     Gold
+========================= -->
 
-            <span class="price-label">
-                شراء
-            </span>
+<div class="card">
 
-            <span class="price-value">
+    <div class="card-title">
 
-                <span id="goldBuy">
-                    ---
-                </span>
-
-                <span class="currency">
-                    جنيه
-                </span>
-
-            </span>
-
-        </div>
-
-
-        <div class="price-row">
-
-            <span class="price-label">
-                بيع
-            </span>
-
-            <span class="price-value">
-
-                <span id="goldSell">
-                    ---
-                </span>
-
-                <span class="currency">
-                    جنيه
-                </span>
-
-            </span>
-
-        </div>
+        🥇 الذهب
 
     </div>
 
 
-    <!-- =====================
-         الدولار
-    ====================== -->
+    <div class="price-row">
 
-    <div class="card">
+        <span class="label">
+            شراء
+        </span>
 
-        <div class="card-header">
+        <span
+            id="goldBuy"
+            class="value">
 
-            <div class="card-title">
-
-                <div class="icon">
-                    💵
-                </div>
-
-                <div>
-
-                    <h2>الدولار الأمريكي</h2>
-
-                    <span>
-                        سعر الدولار مقابل الجنيه
-                    </span>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="price-row">
-
-            <span class="price-label">
-                شراء
-            </span>
-
-            <span class="price-value">
-
-                <span id="dollarBuy">
-                    ---
-                </span>
-
-                <span class="currency">
-                    جنيه
-                </span>
-
-            </span>
-
-        </div>
-
-
-        <div class="price-row">
-
-            <span class="price-label">
-                بيع
-            </span>
-
-            <span class="price-value">
-
-                <span id="dollarSell">
-                    ---
-                </span>
-
-                <span class="currency">
-                    جنيه
-                </span>
-
-            </span>
-
-        </div>
-
-    </div>
-
-
-    <!-- =====================
-         الوقود
-    ====================== -->
-
-    <div class="card">
-
-        <div class="card-header">
-
-            <div class="card-title">
-
-                <div class="icon">
-                    ⛽
-                </div>
-
-                <div>
-
-                    <h2>الوقود</h2>
-
-                    <span>
-                        السعر الحالي
-                    </span>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="price-row">
-
-            <span class="price-label">
-                السعر
-            </span>
-
-            <span class="price-value">
-
-                <span id="fuel">
-                    ---
-                </span>
-
-                <span class="currency">
-                    جنيه
-                </span>
-
-            </span>
-
-        </div>
-
-    </div>
-
-
-    <!-- =====================
-         آخر تحديث
-    ====================== -->
-
-    <div class="last-update">
-
-        آخر تحديث:
-
-        <strong id="lastUpdate">
             ---
-        </strong>
+
+        </span>
 
     </div>
 
 
-    <!-- =====================
-         زر التحديث
-    ====================== -->
+    <div class="price-row">
 
-    <button
-        class="refresh-btn"
-        id="refreshButton"
-        onclick="loadPrices()">
+        <span class="label">
+            بيع
+        </span>
 
-        🔄 تحديث الأسعار
+        <span
+            id="goldSell"
+            class="value">
 
-    </button>
+            ---
 
-
-    <!-- =====================
-         الفوتر
-    ====================== -->
-
-    <div class="footer">
-
-        بورصة نيالا © 2026
+        </span>
 
     </div>
+
+</div>
+
+
+<!-- =========================
+     Dollar
+========================= -->
+
+<div class="card">
+
+    <div class="card-title">
+
+        💵 الدولار
+
+    </div>
+
+
+    <div class="price-row">
+
+        <span class="label">
+            شراء
+        </span>
+
+        <span
+            id="dollarBuy"
+            class="value">
+
+            ---
+
+        </span>
+
+    </div>
+
+
+    <div class="price-row">
+
+        <span class="label">
+            بيع
+        </span>
+
+        <span
+            id="dollarSell"
+            class="value">
+
+            ---
+
+        </span>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     Fuel
+========================= -->
+
+<div class="card">
+
+    <div class="card-title">
+
+        ⛽ الوقود
+
+    </div>
+
+
+    <div class="fuel-grid">
+
+
+        <div class="fuel-box">
+
+            <div class="fuel-name">
+                ديزل
+            </div>
+
+            <div
+                id="diesel"
+                class="fuel-price">
+
+                ---
+
+            </div>
+
+        </div>
+
+
+        <div class="fuel-box">
+
+            <div class="fuel-name">
+                بنزين
+            </div>
+
+            <div
+                id="gasoline"
+                class="fuel-price">
+
+                ---
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     Last update
+========================= -->
+
+<div class="update">
+
+    آخر تحديث:
+
+    <strong
+        id="lastUpdate">
+
+        ---
+
+    </strong>
+
+</div>
+
+
+<!-- =========================
+     Refresh
+========================= -->
+
+<button
+    class="refresh-btn"
+    onclick="loadPrices()">
+
+    🔄 تحديث الأسعار
+
+</button>
+
+
+<div class="footer">
+
+    بورصة نيالا © 2026
+
+</div>
+
 
 </div>
 
@@ -512,27 +550,16 @@ body {
 async function loadPrices() {
 
     const status =
-        document.getElementById("status");
-
-    const button =
-        document.getElementById("refreshButton");
-
-
-    button.classList.add("loading");
-
-    button.textContent =
-        "⏳ جاري التحديث...";
-
-
-    status.innerHTML =
-        "جاري تحميل الأسعار...";
+        document.getElementById(
+            "status"
+        );
 
 
     try {
 
-        /*
-         منع المتصفح من استخدام نسخة قديمة
-        */
+        status.textContent =
+            "جاري تحميل الأسعار...";
+
 
         const response =
             await fetch(
@@ -547,7 +574,8 @@ async function loadPrices() {
         if (!response.ok) {
 
             throw new Error(
-                "HTTP " + response.status
+                "HTTP " +
+                response.status
             );
 
         }
@@ -578,13 +606,18 @@ async function loadPrices() {
 
                 const key =
                     line
-                    .substring(0, index)
+                    .substring(
+                        0,
+                        index
+                    )
                     .trim();
 
 
                 const value =
                     line
-                    .substring(index + 1)
+                    .substring(
+                        index + 1
+                    )
                     .trim();
 
 
@@ -595,48 +628,67 @@ async function loadPrices() {
         );
 
 
-        /*
-         تحديث الأسعار
-        */
+        /* الذهب */
 
         document.getElementById(
             "goldBuy"
         ).textContent =
-            prices["Gold BUY"] || "---";
+            prices["Gold BUY"] ||
+            "---";
 
 
         document.getElementById(
             "goldSell"
         ).textContent =
-            prices["Gold SELL"] || "---";
+            prices["Gold SELL"] ||
+            "---";
 
+
+        /* الدولار */
 
         document.getElementById(
             "dollarBuy"
         ).textContent =
-            prices["Dollar BUY"] || "---";
+            prices["Dollar BUY"] ||
+            "---";
 
 
         document.getElementById(
             "dollarSell"
         ).textContent =
-            prices["Dollar SELL"] || "---";
+            prices["Dollar SELL"] ||
+            "---";
 
+
+        /* الديزل */
 
         document.getElementById(
-            "fuel"
+            "diesel"
         ).textContent =
-            prices["Fuel"] || "---";
+            prices["Diesel"] ||
+            "---";
 
+
+        /* البنزين */
+
+        document.getElementById(
+            "gasoline"
+        ).textContent =
+            prices["Gasoline"] ||
+            "---";
+
+
+        /* آخر تحديث */
 
         document.getElementById(
             "lastUpdate"
         ).textContent =
-            prices["Last update"] || "---";
+            prices["Last update"] ||
+            "---";
 
 
-        status.innerHTML =
-            '<span class="dot"></span> الأسعار محدثة';
+        status.textContent =
+            "● الأسعار محدثة";
 
 
     }
@@ -646,22 +698,8 @@ async function loadPrices() {
         console.error(error);
 
 
-        status.innerHTML =
-            "⚠️ تعذر تحميل الأسعار";
-
-
-    }
-
-
-    finally {
-
-        button.classList.remove(
-            "loading"
-        );
-
-
-        button.textContent =
-            "🔄 تحديث الأسعار";
+        status.textContent =
+            "تعذر تحميل الأسعار";
 
     }
 
@@ -669,22 +707,23 @@ async function loadPrices() {
 
 
 /* =========================
-   تحميل عند فتح الصفحة
+   التحميل الأول
 ========================= */
 
 loadPrices();
 
 
-/*
-   تحديث تلقائي كل دقيقة
-*/
+/* =========================
+   تحديث تلقائي كل 30 ثانية
+========================= */
 
 setInterval(
     loadPrices,
-    60000
+    30000
 );
 
 </script>
+
 
 </body>
 
