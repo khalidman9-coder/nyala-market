@@ -131,26 +131,33 @@ async function loadPrices() {
 
     try {
 
-        const response = await fetch("prices.txt");
+        const response = await fetch("/prices.txt?t=" + Date.now());
+
+        if (!response.ok) {
+            throw new Error("HTTP " + response.status);
+        }
 
         const text = await response.text();
 
-        const lines = text.split("\n");
+        const lines = text.split(/\r?\n/);
 
         let prices = {};
 
         lines.forEach(function(line) {
 
-            const parts = line.split(":");
+            const separator = line.indexOf(":");
 
-            if (parts.length >= 2) {
+            if (separator !== -1) {
 
-                const key = parts[0].trim();
+                const key = line
+                    .substring(0, separator)
+                    .trim();
 
-                const value = parts.slice(1).join(":").trim();
+                const value = line
+                    .substring(separator + 1)
+                    .trim();
 
                 prices[key] = value;
-
             }
 
         });
@@ -180,6 +187,8 @@ async function loadPrices() {
 
     catch (error) {
 
+        console.error(error);
+
         document.getElementById("status").textContent =
             "تعذر تحميل الأسعار";
 
@@ -187,7 +196,10 @@ async function loadPrices() {
 
 }
 
+
 loadPrices();
+
+setInterval(loadPrices, 30000);
 
 </script>
 
