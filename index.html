@@ -16,225 +16,208 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: Arial, "Tahoma", sans-serif;
+    font-family: Arial, Tahoma, sans-serif;
     background: #f4f6f8;
     color: #17202a;
 }
 
-/* ===== Header ===== */
+/* =========================
+   الصفحة
+========================= */
+
+.container {
+    width: 100%;
+    max-width: 520px;
+    margin: auto;
+    padding: 14px;
+}
+
+/* =========================
+   الهيدر
+========================= */
 
 .header {
-    background: linear-gradient(135deg, #111827, #263449);
+    background: linear-gradient(135deg, #111827, #26364d);
     color: white;
-    padding: 25px 18px 22px;
-    text-align: center;
-    border-radius: 0 0 25px 25px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    padding: 24px 18px;
+    border-radius: 22px;
+    margin-bottom: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+
+.header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .logo {
-    font-size: 34px;
-    margin-bottom: 5px;
+    width: 48px;
+    height: 48px;
+    background: rgba(255,255,255,0.12);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
 }
 
 .header h1 {
     margin: 0;
-    font-size: 28px;
+    font-size: 25px;
 }
 
 .header p {
     margin: 8px 0 0;
     color: #d1d5db;
-    font-size: 15px;
+    font-size: 14px;
 }
 
-/* ===== Status ===== */
-
-.status-box {
-    margin: 18px 15px 12px;
-    background: white;
-    border-radius: 14px;
-    padding: 12px 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-}
+/* =========================
+   حالة التحديث
+========================= */
 
 .status {
+    background: white;
+    border-radius: 15px;
+    padding: 12px;
+    margin-bottom: 14px;
+    text-align: center;
     font-size: 14px;
-    font-weight: bold;
+    color: #15803d;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.06);
 }
 
-.status-online {
-    color: #16a34a;
+.dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: #22c55e;
+    border-radius: 50%;
+    margin-left: 5px;
 }
 
-.status-error {
-    color: #dc2626;
-}
-
-.refresh-time {
-    color: #6b7280;
-    font-size: 12px;
-}
-
-/* ===== Main ===== */
-
-.container {
-    padding: 0 15px 30px;
-    max-width: 600px;
-    margin: auto;
-}
-
-/* ===== Cards ===== */
+/* =========================
+   البطاقات
+========================= */
 
 .card {
     background: white;
     border-radius: 20px;
-    padding: 20px;
-    margin-top: 15px;
-    box-shadow: 0 3px 14px rgba(0,0,0,0.07);
+    padding: 18px;
+    margin-bottom: 14px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.07);
 }
 
 .card-header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 18px;
+    justify-content: space-between;
+    margin-bottom: 16px;
 }
 
 .card-title {
-    font-size: 21px;
-    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .icon {
-    font-size: 30px;
+    width: 43px;
+    height: 43px;
+    border-radius: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 23px;
+    background: #f3f4f6;
 }
 
-/* ===== Price Rows ===== */
+.card-title h2 {
+    margin: 0;
+    font-size: 19px;
+}
+
+.card-title span {
+    display: block;
+    margin-top: 3px;
+    font-size: 12px;
+    color: #6b7280;
+}
+
+/* =========================
+   الأسعار
+========================= */
 
 .price-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 14px 0;
-    border-bottom: 1px solid #edf0f2;
-}
-
-.price-row:last-child {
-    border-bottom: none;
+    padding: 13px 0;
+    border-top: 1px solid #edf0f2;
 }
 
 .price-label {
     color: #6b7280;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .price-value {
-    font-size: 23px;
+    font-size: 21px;
     font-weight: bold;
-    direction: ltr;
+    color: #111827;
 }
 
-/* ===== Gold ===== */
-
-.gold-card {
-    border-top: 4px solid #d4a72c;
-}
-
-.gold-value {
-    color: #b8860b;
-}
-
-/* ===== Dollar ===== */
-
-.dollar-card {
-    border-top: 4px solid #16a34a;
-}
-
-.dollar-value {
-    color: #15803d;
-}
-
-/* ===== Fuel ===== */
-
-.fuel-card {
-    border-top: 4px solid #2563eb;
-}
-
-.fuel-value {
-    color: #1d4ed8;
-}
-
-/* ===== Change ===== */
-
-.change {
-    display: inline-block;
-    margin-right: 8px;
-    font-size: 13px;
-    font-weight: bold;
-}
-
-.up {
-    color: #16a34a;
-}
-
-.down {
-    color: #dc2626;
-}
-
-.same {
+.currency {
+    font-size: 12px;
     color: #6b7280;
+    margin-right: 4px;
 }
 
-/* ===== Refresh Button ===== */
+/* =========================
+   آخر تحديث
+========================= */
 
-.refresh-button {
+.last-update {
+    text-align: center;
+    color: #6b7280;
+    font-size: 12px;
+    margin: 18px 0;
+}
+
+/* =========================
+   زر التحديث
+========================= */
+
+.refresh-btn {
     width: 100%;
-    margin-top: 18px;
-    padding: 15px;
     border: none;
-    border-radius: 15px;
-    background: #1f2937;
+    background: #111827;
     color: white;
-    font-size: 17px;
+    padding: 15px;
+    border-radius: 15px;
+    font-size: 16px;
     font-weight: bold;
     cursor: pointer;
 }
 
-.refresh-button:active {
+.refresh-btn:active {
     transform: scale(0.98);
 }
 
-.refresh-button.loading {
+.refresh-btn.loading {
     opacity: 0.7;
 }
 
-/* ===== Footer ===== */
+/* =========================
+   الفوتر
+========================= */
 
 .footer {
     text-align: center;
-    padding: 20px;
     color: #9ca3af;
-    font-size: 12px;
-}
-
-/* ===== Desktop ===== */
-
-@media (min-width: 700px) {
-
-    .header {
-        margin: 20px auto 0;
-        max-width: 600px;
-        border-radius: 25px;
-    }
-
-    .container {
-        padding-top: 5px;
-    }
-
+    font-size: 11px;
+    padding: 15px 0 25px;
 }
 
 </style>
@@ -243,376 +226,290 @@ body {
 
 <body>
 
-
-<!-- Header -->
-
-<div class="header">
-
-    <div class="logo">📊</div>
-
-    <h1>بورصة نيالا</h1>
-
-    <p>أسعار السوق في نيالا</p>
-
-</div>
-
-
-<!-- Status -->
-
-<div class="status-box">
-
-    <div
-        id="status"
-        class="status status-online"
-    >
-        ● جاري تحميل الأسعار...
-    </div>
-
-    <div
-        id="refreshTime"
-        class="refresh-time"
-    >
-        ---
-    </div>
-
-</div>
-
-
 <div class="container">
 
+    <!-- =====================
+         الهيدر
+    ====================== -->
 
-<!-- Gold -->
+    <div class="header">
 
-<div class="card gold-card">
+        <div class="header-top">
 
-    <div class="card-header">
+            <div>
+                <h1>بورصة نيالا</h1>
+                <p>أسعار السوق في نيالا</p>
+            </div>
 
-        <div class="card-title">
-            الذهب
-        </div>
+            <div class="logo">
+                📊
+            </div>
 
-        <div class="icon">
-            🥇
-        </div>
-
-    </div>
-
-
-    <div class="price-row">
-
-        <span class="price-label">
-            شراء
-        </span>
-
-        <span>
-
-            <span
-                id="goldBuy"
-                class="price-value gold-value"
-            >
-                ---
-            </span>
-
-            <span
-                id="goldBuyChange"
-                class="change same"
-            >
-            </span>
-
-        </span>
-
-    </div>
-
-
-    <div class="price-row">
-
-        <span class="price-label">
-            بيع
-        </span>
-
-        <span>
-
-            <span
-                id="goldSell"
-                class="price-value gold-value"
-            >
-                ---
-            </span>
-
-            <span
-                id="goldSellChange"
-                class="change same"
-            >
-            </span>
-
-        </span>
-
-    </div>
-
-</div>
-
-
-<!-- Dollar -->
-
-<div class="card dollar-card">
-
-    <div class="card-header">
-
-        <div class="card-title">
-            الدولار الأمريكي
-        </div>
-
-        <div class="icon">
-            💵
         </div>
 
     </div>
 
 
-    <div class="price-row">
+    <!-- =====================
+         حالة الموقع
+    ====================== -->
 
-        <span class="price-label">
-            شراء
-        </span>
+    <div class="status" id="status">
 
-        <span>
+        <span class="dot"></span>
 
-            <span
-                id="dollarBuy"
-                class="price-value dollar-value"
-            >
-                ---
-            </span>
-
-            <span
-                id="dollarBuyChange"
-                class="change same"
-            >
-            </span>
-
-        </span>
+        جاري تحميل الأسعار...
 
     </div>
 
 
-    <div class="price-row">
+    <!-- =====================
+         الذهب
+    ====================== -->
 
-        <span class="price-label">
-            بيع
-        </span>
+    <div class="card">
 
-        <span>
+        <div class="card-header">
 
-            <span
-                id="dollarSell"
-                class="price-value dollar-value"
-            >
-                ---
-            </span>
+            <div class="card-title">
 
-            <span
-                id="dollarSellChange"
-                class="change same"
-            >
-            </span>
+                <div class="icon">
+                    🥇
+                </div>
 
-        </span>
+                <div>
 
-    </div>
+                    <h2>الذهب</h2>
 
-</div>
+                    <span>
+                        سعر الذهب في السوق
+                    </span>
 
+                </div>
 
-<!-- Fuel -->
+            </div>
 
-<div class="card fuel-card">
-
-    <div class="card-header">
-
-        <div class="card-title">
-            الوقود
         </div>
 
-        <div class="icon">
-            ⛽
+
+        <div class="price-row">
+
+            <span class="price-label">
+                شراء
+            </span>
+
+            <span class="price-value">
+
+                <span id="goldBuy">
+                    ---
+                </span>
+
+                <span class="currency">
+                    جنيه
+                </span>
+
+            </span>
+
+        </div>
+
+
+        <div class="price-row">
+
+            <span class="price-label">
+                بيع
+            </span>
+
+            <span class="price-value">
+
+                <span id="goldSell">
+                    ---
+                </span>
+
+                <span class="currency">
+                    جنيه
+                </span>
+
+            </span>
+
         </div>
 
     </div>
 
 
-    <div class="price-row">
+    <!-- =====================
+         الدولار
+    ====================== -->
 
-        <span class="price-label">
-            السعر
-        </span>
+    <div class="card">
 
-        <span
-            id="fuel"
-            class="price-value fuel-value"
-        >
+        <div class="card-header">
+
+            <div class="card-title">
+
+                <div class="icon">
+                    💵
+                </div>
+
+                <div>
+
+                    <h2>الدولار الأمريكي</h2>
+
+                    <span>
+                        سعر الدولار مقابل الجنيه
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="price-row">
+
+            <span class="price-label">
+                شراء
+            </span>
+
+            <span class="price-value">
+
+                <span id="dollarBuy">
+                    ---
+                </span>
+
+                <span class="currency">
+                    جنيه
+                </span>
+
+            </span>
+
+        </div>
+
+
+        <div class="price-row">
+
+            <span class="price-label">
+                بيع
+            </span>
+
+            <span class="price-value">
+
+                <span id="dollarSell">
+                    ---
+                </span>
+
+                <span class="currency">
+                    جنيه
+                </span>
+
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================
+         الوقود
+    ====================== -->
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <div class="card-title">
+
+                <div class="icon">
+                    ⛽
+                </div>
+
+                <div>
+
+                    <h2>الوقود</h2>
+
+                    <span>
+                        السعر الحالي
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="price-row">
+
+            <span class="price-label">
+                السعر
+            </span>
+
+            <span class="price-value">
+
+                <span id="fuel">
+                    ---
+                </span>
+
+                <span class="currency">
+                    جنيه
+                </span>
+
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================
+         آخر تحديث
+    ====================== -->
+
+    <div class="last-update">
+
+        آخر تحديث:
+
+        <strong id="lastUpdate">
             ---
-        </span>
+        </strong>
+
+    </div>
+
+
+    <!-- =====================
+         زر التحديث
+    ====================== -->
+
+    <button
+        class="refresh-btn"
+        id="refreshButton"
+        onclick="loadPrices()">
+
+        🔄 تحديث الأسعار
+
+    </button>
+
+
+    <!-- =====================
+         الفوتر
+    ====================== -->
+
+    <div class="footer">
+
+        بورصة نيالا © 2026
 
     </div>
 
 </div>
-
-
-<!-- Last Update -->
-
-<div class="card">
-
-    <div class="price-row">
-
-        <span class="price-label">
-            آخر تحديث
-        </span>
-
-        <span
-            id="lastUpdate"
-            style="font-size:14px;font-weight:bold;"
-        >
-            ---
-        </span>
-
-    </div>
-
-</div>
-
-
-<!-- Refresh -->
-
-<button
-    id="refreshButton"
-    class="refresh-button"
-    onclick="loadPrices(true)"
->
-    🔄 تحديث الأسعار
-</button>
-
-
-</div>
-
-
-<!-- Footer -->
-
-<div class="footer">
-
-    بورصة نيالا © 2026
-
-</div>
-
 
 
 <script>
 
-/*
-    حفظ الأسعار السابقة مؤقتًا في الهاتف
-*/
+/* =========================
+   تحميل الأسعار
+========================= */
 
-let previousPrices = {
-
-    goldBuy: null,
-    goldSell: null,
-
-    dollarBuy: null,
-    dollarSell: null,
-
-    fuel: null
-
-};
-
-
-/*
-    تحويل النص إلى رقم
-*/
-
-function numberValue(value) {
-
-    if (!value) {
-        return null;
-    }
-
-    let cleaned = value
-        .replace(/,/g, "")
-        .replace(/\s/g, "");
-
-    let number = parseFloat(cleaned);
-
-    if (isNaN(number)) {
-        return null;
-    }
-
-    return number;
-
-}
-
-
-/*
-    عرض التغير
-*/
-
-function showChange(elementId, oldValue, newValue) {
-
-    const element =
-        document.getElementById(elementId);
-
-    if (
-        oldValue === null ||
-        newValue === null
-    ) {
-
-        element.textContent = "";
-        element.className = "change same";
-
-        return;
-    }
-
-
-    if (newValue > oldValue) {
-
-        const difference =
-            newValue - oldValue;
-
-        element.textContent =
-            "▲ +" + difference;
-
-        element.className =
-            "change up";
-
-    }
-
-    else if (newValue < oldValue) {
-
-        const difference =
-            oldValue - newValue;
-
-        element.textContent =
-            "▼ -" + difference;
-
-        element.className =
-            "change down";
-
-    }
-
-    else {
-
-        element.textContent =
-            "— ثابت";
-
-        element.className =
-            "change same";
-
-    }
-
-}
-
-
-/*
-    تحميل الأسعار
-*/
-
-async function loadPrices(manual = false) {
+async function loadPrices() {
 
     const status =
         document.getElementById("status");
@@ -621,42 +518,36 @@ async function loadPrices(manual = false) {
         document.getElementById("refreshButton");
 
 
+    button.classList.add("loading");
+
+    button.textContent =
+        "⏳ جاري التحديث...";
+
+
+    status.innerHTML =
+        "جاري تحميل الأسعار...";
+
+
     try {
 
-        if (manual) {
-
-            button.classList.add("loading");
-
-            button.textContent =
-                "⏳ جاري التحديث...";
-
-        }
-
-
-        status.textContent =
-            "● جاري تحديث الأسعار...";
-
-        status.className =
-            "status";
-
-
         /*
-            إضافة timestamp لمنع المتصفح
-            من استخدام نسخة قديمة
+         منع المتصفح من استخدام نسخة قديمة
         */
 
         const response =
             await fetch(
                 "/prices.txt?t=" +
-                Date.now()
+                Date.now(),
+                {
+                    cache: "no-store"
+                }
             );
 
 
         if (!response.ok) {
 
             throw new Error(
-                "HTTP " +
-                response.status
+                "HTTP " + response.status
             );
 
         }
@@ -670,63 +561,42 @@ async function loadPrices(manual = false) {
             text.split(/\r?\n/);
 
 
-        let prices = {};
+        const prices = {};
 
 
-        lines.forEach(function(line) {
+        lines.forEach(
+            function(line) {
 
-            const separator =
-                line.indexOf(":");
+                const index =
+                    line.indexOf(":");
 
 
-            if (separator !== -1) {
+                if (index === -1) {
+                    return;
+                }
+
 
                 const key =
                     line
-                    .substring(0, separator)
+                    .substring(0, index)
                     .trim();
 
 
                 const value =
                     line
-                    .substring(separator + 1)
+                    .substring(index + 1)
                     .trim();
 
 
-                prices[key] = value;
+                prices[key] =
+                    value;
 
             }
-
-        });
-
-
-        /*
-            استخراج الأسعار
-        */
-
-        const goldBuy =
-            numberValue(
-                prices["Gold BUY"]
-            );
-
-        const goldSell =
-            numberValue(
-                prices["Gold SELL"]
-            );
-
-        const dollarBuy =
-            numberValue(
-                prices["Dollar BUY"]
-            );
-
-        const dollarSell =
-            numberValue(
-                prices["Dollar SELL"]
-            );
+        );
 
 
         /*
-            عرض الأسعار
+         تحديث الأسعار
         */
 
         document.getElementById(
@@ -765,84 +635,8 @@ async function loadPrices(manual = false) {
             prices["Last update"] || "---";
 
 
-        /*
-            حساب التغير
-        */
-
-        showChange(
-            "goldBuyChange",
-            previousPrices.goldBuy,
-            goldBuy
-        );
-
-
-        showChange(
-            "goldSellChange",
-            previousPrices.goldSell,
-            goldSell
-        );
-
-
-        showChange(
-            "dollarBuyChange",
-            previousPrices.dollarBuy,
-            dollarBuy
-        );
-
-
-        showChange(
-            "dollarSellChange",
-            previousPrices.dollarSell,
-            dollarSell
-        );
-
-
-        /*
-            حفظ الأسعار الحالية
-        */
-
-        previousPrices.goldBuy =
-            goldBuy;
-
-        previousPrices.goldSell =
-            goldSell;
-
-        previousPrices.dollarBuy =
-            dollarBuy;
-
-        previousPrices.dollarSell =
-            dollarSell;
-
-
-        /*
-            حالة الاتصال
-        */
-
-        status.textContent =
-            "● الأسعار محدثة";
-
-        status.className =
-            "status status-online";
-
-
-        /*
-            وقت آخر جلب من السيرفر
-        */
-
-        const now =
-            new Date();
-
-
-        document.getElementById(
-            "refreshTime"
-        ).textContent =
-            now.toLocaleTimeString(
-                "ar-SD",
-                {
-                    hour: "2-digit",
-                    minute: "2-digit"
-                }
-            );
+        status.innerHTML =
+            '<span class="dot"></span> الأسعار محدثة';
 
 
     }
@@ -852,53 +646,46 @@ async function loadPrices(manual = false) {
         console.error(error);
 
 
-        status.textContent =
-            "● تعذر تحميل الأسعار";
+        status.innerHTML =
+            "⚠️ تعذر تحميل الأسعار";
 
-        status.className =
-            "status status-error";
 
     }
 
 
     finally {
 
-        if (manual) {
+        button.classList.remove(
+            "loading"
+        );
 
-            button.classList.remove(
-                "loading"
-            );
 
-            button.textContent =
-                "🔄 تحديث الأسعار";
-
-        }
+        button.textContent =
+            "🔄 تحديث الأسعار";
 
     }
 
 }
 
 
-/*
-    تحميل أولي
-*/
+/* =========================
+   تحميل عند فتح الصفحة
+========================= */
 
 loadPrices();
 
 
 /*
-    تحديث تلقائي كل 30 ثانية
+   تحديث تلقائي كل دقيقة
 */
 
 setInterval(
-    function() {
-        loadPrices(false);
-    },
-    30000
+    loadPrices,
+    60000
 );
 
 </script>
 
-
 </body>
+
 </html>
