@@ -156,6 +156,11 @@ class NyalaHandler(BaseHTTPRequestHandler):
             return
 
 
+        if path == "/chart.html":
+            self.send_html("chart.html")
+            return
+
+
         if path == "/":
             self.send_html("index.html")
             return
@@ -172,6 +177,7 @@ class NyalaHandler(BaseHTTPRequestHandler):
             "/",
             "/admin.html",
             "/history.html",
+            "/chart.html",
             "/prices.txt",
             "/history.txt"
         ):
