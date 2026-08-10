@@ -38,7 +38,7 @@ class NyalaHandler(BaseHTTPRequestHandler):
 
         if self.path == "/prices.txt":
 
-            file_path = "../prices.txt"
+            file_path = "prices.txt"
 
             if os.path.exists(file_path):
 
@@ -171,7 +171,7 @@ class NyalaHandler(BaseHTTPRequestHandler):
             "%Y-%m-%d %H:%M:%S"
         )
 
-        with open("../prices.txt", "w") as file:
+        with open("prices.txt", "w") as file:
 
             file.write(
                 "Gold BUY: " + gold_buy + "\n"
@@ -197,7 +197,7 @@ class NyalaHandler(BaseHTTPRequestHandler):
                 "Last update: " + time_now + "\n"
             )
 
-        with open("../history.txt", "a") as file:
+        with open("history.txt", "a") as file:
 
             file.write(
                 time_now
