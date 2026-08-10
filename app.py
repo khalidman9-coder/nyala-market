@@ -2,9 +2,8 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 import os
 from datetime import datetime
-from urllib.parse import parse_qs
 
-import os
+
 USERNAME = os.environ.get("USERNAME")
 PASSWORD = os.environ.get("PASSWORD")
 
@@ -27,6 +26,13 @@ class NyalaHandler(BaseHTTPRequestHandler):
 
         self.wfile.write(data)
 
+    def do_HEAD(self):
+        self.send_response(200)
+        self.send_header(
+            "Content-Type",
+            "text/html; charset=utf-8"
+        )
+        self.end_headers()
 
     def do_GET(self):
 
@@ -44,6 +50,10 @@ class NyalaHandler(BaseHTTPRequestHandler):
                     "Content-Type",
                     "text/plain; charset=utf-8"
                 )
+                self.send_header(
+                    "Content-Length",
+                    str(len(data))
+                )
                 self.end_headers()
 
                 self.wfile.write(data)
@@ -53,23 +63,29 @@ class NyalaHandler(BaseHTTPRequestHandler):
 
             return
 
-
         if self.path == "/admin.html":
 
-            with open("admin.html", "rb") as file:
-                data = file.read()
+            try:
+                with open("admin.html", "rb") as file:
+                    data = file.read()
 
-            self.send_response(200)
-            self.send_header(
-                "Content-Type",
-                "text/html; charset=utf-8"
-            )
-            self.end_headers()
+                self.send_response(200)
+                self.send_header(
+                    "Content-Type",
+                    "text/html; charset=utf-8"
+                )
+                self.send_header(
+                    "Content-Length",
+                    str(len(data))
+                )
+                self.end_headers()
 
-            self.wfile.write(data)
+                self.wfile.write(data)
+
+            except FileNotFoundError:
+                self.send_error(404, "Admin page not found")
 
             return
-
 
         try:
 
@@ -81,6 +97,10 @@ class NyalaHandler(BaseHTTPRequestHandler):
                 "Content-Type",
                 "text/html; charset=utf-8"
             )
+            self.send_header(
+                "Content-Length",
+                str(len(data))
+            )
             self.end_headers()
 
             self.wfile.write(data)
@@ -89,18 +109,14 @@ class NyalaHandler(BaseHTTPRequestHandler):
 
             self.send_error(404, "Page not found")
 
-
     def do_POST(self):
 
         if self.path != "/update":
             self.send_error(404)
             return
 
-
-        # قراءة بيانات الدخول
         username = self.headers.get("X-Username", "")
         password = self.headers.get("X-Password", "")
-
 
         if username != USERNAME or password != PASSWORD:
 
@@ -111,14 +127,14 @@ class NyalaHandler(BaseHTTPRequestHandler):
 
             return
 
-
-        length = int(
-            self.headers.get("Content-Length", 0)
-        )
-
-        body = self.rfile.read(length)
-
         try:
+
+            length = int(
+                self.headers.get("Content-Length", 0)
+            )
+
+            body = self.rfile.read(length)
+
             data = json.loads(
                 body.decode("utf-8")
             )
@@ -132,20 +148,28 @@ class NyalaHandler(BaseHTTPRequestHandler):
 
             return
 
+        try:
 
-        gold_buy = data["goldBuy"]
-        gold_sell = data["goldSell"]
+            gold_buy = str(data["goldBuy"])
+            gold_sell = str(data["goldSell"])
 
-        dollar_buy = data["dollarBuy"]
-        dollar_sell = data["dollarSell"]
+            dollar_buy = str(data["dollarBuy"])
+            dollar_sell = str(data["dollarSell"])
 
-        fuel = data["fuel"]
+            fuel = str(data["fuel"])
 
+        except KeyError:
+
+            self.send_text(
+                "بيانات ناقصة",
+                400
+            )
+
+            return
 
         time_now = datetime.now().strftime(
             "%Y-%m-%d %H:%M:%S"
         )
-
 
         with open("../prices.txt", "w") as file:
 
@@ -173,7 +197,6 @@ class NyalaHandler(BaseHTTPRequestHandler):
                 "Last update: " + time_now + "\n"
             )
 
-
         with open("../history.txt", "a") as file:
 
             file.write(
@@ -191,19 +214,20 @@ class NyalaHandler(BaseHTTPRequestHandler):
                 + "\n"
             )
 
-
         self.send_text(
             "تم تحديث الأسعار بنجاح"
         )
 
 
+# Render يحدد المنفذ من متغير PORT
+PORT = int(os.environ.get("PORT", 8080))
+
 server = HTTPServer(
-    ("127.0.0.1", 8080),
+    ("0.0.0.0", PORT),
     NyalaHandler
 )
 
-
 print("NYALA MARKET SERVER")
-print("Open: http://127.0.0.1:8080")
+print("Listening on port:", PORT)
 
 server.serve_forever()
