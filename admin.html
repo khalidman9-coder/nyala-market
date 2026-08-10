@@ -17,314 +17,157 @@
 }
 
 body {
-
     margin: 0;
-
-    padding: 0;
-
-    font-family:
-        Arial,
-        Tahoma,
-        sans-serif;
-
-    background: #f4f6f8;
-
+    padding: 15px;
+    font-family: Arial, Tahoma, sans-serif;
+    background: #f3f5f7;
     color: #17202a;
-
 }
 
 .container {
-
     width: 100%;
-
     max-width: 520px;
-
     margin: auto;
-
-    padding: 15px;
-
 }
 
-
-/* =========================
-   Header
-========================= */
-
 .header {
-
-    background:
-        linear-gradient(
-            135deg,
-            #111827,
-            #26364d
-        );
-
+    background: linear-gradient(135deg, #111827, #26364d);
     color: white;
-
     padding: 23px 18px;
-
     border-radius: 22px;
-
     margin-bottom: 15px;
-
-    box-shadow:
-        0 8px 25px
-        rgba(0,0,0,0.12);
-
+    box-shadow: 0 8px 25px rgba(0,0,0,.12);
 }
 
 .header h1 {
-
     margin: 0;
-
     font-size: 24px;
-
 }
 
 .header p {
-
     margin: 7px 0 0;
-
     color: #d1d5db;
-
     font-size: 13px;
-
 }
 
-
-/* =========================
-   Login
-========================= */
-
 .card {
-
     background: white;
-
     border-radius: 20px;
-
     padding: 20px;
-
     margin-bottom: 15px;
-
-    box-shadow:
-        0 4px 18px
-        rgba(0,0,0,0.07);
-
+    box-shadow: 0 4px 18px rgba(0,0,0,.07);
 }
 
 .title {
-
     font-size: 19px;
-
     font-weight: bold;
-
     margin-bottom: 18px;
-
 }
 
-
-/* =========================
-   Inputs
-========================= */
-
 label {
-
     display: block;
-
     margin-bottom: 7px;
-
     color: #6b7280;
-
     font-size: 13px;
-
 }
 
 input {
-
     width: 100%;
-
     padding: 14px;
-
     border: 1px solid #d9dee5;
-
     border-radius: 13px;
-
     font-size: 16px;
-
     margin-bottom: 14px;
-
     outline: none;
-
     background: #fafafa;
-
 }
 
 input:focus {
-
     border-color: #111827;
-
     background: white;
-
 }
 
-
-/* =========================
-   Buttons
-========================= */
-
 button {
-
     width: 100%;
-
     border: none;
-
     border-radius: 14px;
-
     padding: 15px;
-
     font-size: 16px;
-
     font-weight: bold;
-
     cursor: pointer;
-
 }
 
 .login-btn {
-
     background: #111827;
-
     color: white;
-
 }
 
 .update-btn {
-
     background: #15803d;
-
     color: white;
-
     margin-top: 5px;
-
 }
 
 .logout-btn {
-
     background: #f3f4f6;
-
     color: #374151;
-
     margin-top: 10px;
-
 }
 
-
-/* =========================
-   Status
-========================= */
-
 .status {
-
     text-align: center;
-
     padding: 12px;
-
     border-radius: 13px;
-
     margin-bottom: 15px;
-
     font-size: 14px;
-
     display: none;
-
 }
 
 .success {
-
     background: #dcfce7;
-
     color: #166534;
-
 }
 
 .error {
-
     background: #fee2e2;
-
     color: #991b1b;
-
 }
 
-
-/* =========================
-   Price boxes
-========================= */
-
 .price-section {
-
     display: none;
-
 }
 
 .price-group {
-
     border: 1px solid #edf0f2;
-
     border-radius: 16px;
-
     padding: 15px;
-
     margin-bottom: 13px;
-
 }
 
 .price-group-title {
-
     font-size: 17px;
-
     font-weight: bold;
-
     margin-bottom: 13px;
-
 }
 
-
-/* =========================
-   Footer
-========================= */
-
 .footer {
-
     text-align: center;
-
     color: #9ca3af;
-
     font-size: 11px;
-
     padding: 15px 0 25px;
-
 }
 
 </style>
 
 </head>
 
-
 <body>
-
 
 <div class="container">
 
-
-<!-- =====================
-     Header
-====================== -->
-
 <div class="header">
 
-    <h1>
-        ⚙️ إدارة بورصة نيالا
-    </h1>
+    <h1>⚙️ إدارة بورصة نيالا</h1>
 
     <p>
         لوحة التحكم في أسعار السوق
@@ -333,18 +176,12 @@ button {
 </div>
 
 
-<!-- =====================
-     Status
-====================== -->
-
 <div id="status"
      class="status">
 </div>
 
 
-<!-- =====================
-     Login
-====================== -->
+<!-- تسجيل الدخول -->
 
 <div id="loginSection"
      class="card">
@@ -352,7 +189,6 @@ button {
     <div class="title">
         🔐 تسجيل الدخول
     </div>
-
 
     <label>
         اسم المستخدم
@@ -387,9 +223,7 @@ button {
 </div>
 
 
-<!-- =====================
-     Price Section
-====================== -->
+<!-- لوحة الأسعار -->
 
 <div id="priceSection"
      class="price-section">
@@ -409,7 +243,6 @@ button {
             <div class="price-group-title">
                 🥇 الذهب
             </div>
-
 
             <label>
                 سعر الشراء
@@ -443,7 +276,6 @@ button {
                 💵 الدولار
             </div>
 
-
             <label>
                 سعر الشراء
             </label>
@@ -468,24 +300,44 @@ button {
         </div>
 
 
-        <!-- الوقود -->
+        <!-- الديزل -->
 
         <div class="price-group">
 
             <div class="price-group-title">
-                ⛽ الوقود
+                ⛽ الديزل
             </div>
 
-
             <label>
-                السعر
+                سعر الديزل
             </label>
 
             <input
-                id="fuel"
+                id="diesel"
                 type="text"
                 inputmode="decimal"
                 placeholder="مثال: 1400">
+
+        </div>
+
+
+        <!-- البنزين -->
+
+        <div class="price-group">
+
+            <div class="price-group-title">
+                🚗 البنزين
+            </div>
+
+            <label>
+                سعر البنزين
+            </label>
+
+            <input
+                id="gasoline"
+                type="text"
+                inputmode="decimal"
+                placeholder="مثال: 1600">
 
         </div>
 
@@ -518,21 +370,16 @@ button {
 
 </div>
 
-
 </div>
 
 
 <script>
 
-/* =========================
-   حالة تسجيل الدخول
-========================= */
-
 let loggedIn = false;
 
 
 /* =========================
-   إظهار الرسالة
+   الرسائل
 ========================= */
 
 function showStatus(
@@ -545,18 +392,14 @@ function showStatus(
             "status"
         );
 
-
     status.textContent =
         message;
-
 
     status.className =
         "status " + type;
 
-
     status.style.display =
         "block";
-
 }
 
 
@@ -570,7 +413,6 @@ function login() {
         document.getElementById(
             "username"
         ).value.trim();
-
 
     const password =
         document.getElementById(
@@ -586,20 +428,13 @@ function login() {
         );
 
         return;
-
     }
 
-
-    /*
-       نخزن البيانات في الذاكرة
-       فقط أثناء فتح الصفحة
-    */
 
     sessionStorage.setItem(
         "nyala_username",
         username
     );
-
 
     sessionStorage.setItem(
         "nyala_password",
@@ -629,7 +464,6 @@ function login() {
 
 
     loadCurrentPrices();
-
 }
 
 
@@ -728,17 +562,23 @@ async function loadCurrentPrices() {
 
 
         document.getElementById(
-            "fuel"
+            "diesel"
         ).value =
-            prices["Fuel"] || "";
+            prices["Diesel"] || "";
 
 
-    } catch (error) {
+        document.getElementById(
+            "gasoline"
+        ).value =
+            prices["Gasoline"] || "";
+
+    }
+
+    catch (error) {
 
         console.error(error);
 
     }
-
 }
 
 
@@ -748,7 +588,6 @@ async function loadCurrentPrices() {
 
 async function updatePrices() {
 
-
     if (!loggedIn) {
 
         showStatus(
@@ -757,7 +596,6 @@ async function updatePrices() {
         );
 
         return;
-
     }
 
 
@@ -785,9 +623,15 @@ async function updatePrices() {
         ).value.trim();
 
 
-    const fuel =
+    const diesel =
         document.getElementById(
-            "fuel"
+            "diesel"
+        ).value.trim();
+
+
+    const gasoline =
+        document.getElementById(
+            "gasoline"
         ).value.trim();
 
 
@@ -796,7 +640,8 @@ async function updatePrices() {
         !goldSell ||
         !dollarBuy ||
         !dollarSell ||
-        !fuel
+        !diesel ||
+        !gasoline
     ) {
 
         showStatus(
@@ -805,7 +650,6 @@ async function updatePrices() {
         );
 
         return;
-
     }
 
 
@@ -835,9 +679,11 @@ async function updatePrices() {
         dollarSell:
             dollarSell,
 
-        fuel:
-            fuel
+        diesel:
+            diesel,
 
+        gasoline:
+            gasoline
     };
 
 
@@ -867,14 +713,12 @@ async function updatePrices() {
 
                         "X-Password":
                             password
-
                     },
 
                     body:
                         JSON.stringify(
                             data
                         )
-
                 }
             );
 
@@ -893,7 +737,6 @@ async function updatePrices() {
             );
 
             return;
-
         }
 
 
@@ -906,7 +749,6 @@ async function updatePrices() {
             );
 
             return;
-
         }
 
 
@@ -916,18 +758,17 @@ async function updatePrices() {
         );
 
 
-    } catch (error) {
+    }
+
+    catch (error) {
 
         console.error(error);
-
 
         showStatus(
             "تعذر الاتصال بالخادم",
             "error"
         );
-
     }
-
 }
 
 
@@ -977,7 +818,6 @@ function logout() {
         "تم تسجيل الخروج",
         "success"
     );
-
 }
 
 </script>
