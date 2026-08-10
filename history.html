@@ -2,19 +2,13 @@
 <html lang="ar" dir="rtl">
 
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
-
-<meta name="theme-color"
-      content="#111827">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#111827">
 
 <title>سجل أسعار بورصة نيالا</title>
 
 <style>
-
 * {
     box-sizing: border-box;
 }
@@ -34,20 +28,12 @@ body {
 }
 
 .header {
-    background: linear-gradient(
-        135deg,
-        #111827,
-        #26364d
-    );
-
+    background: linear-gradient(135deg,#111827,#26364d);
     color: white;
     padding: 24px 18px;
     border-radius: 22px;
     margin-bottom: 15px;
-
-    box-shadow:
-        0 8px 25px
-        rgba(0,0,0,.12);
+    text-align: center;
 }
 
 .header h1 {
@@ -56,7 +42,7 @@ body {
 }
 
 .header p {
-    margin: 7px 0 0;
+    margin: 8px 0 0;
     color: #d1d5db;
     font-size: 13px;
 }
@@ -73,21 +59,17 @@ body {
     border-radius: 17px;
     padding: 16px;
     text-align: center;
-
-    box-shadow:
-        0 4px 15px
-        rgba(0,0,0,.06);
 }
 
 .summary-title {
     color: #6b7280;
     font-size: 13px;
-    margin-bottom: 7px;
+    margin-bottom: 8px;
 }
 
 .summary-value {
-    font-size: 21px;
-    font-weight: 800;
+    font-size: 20px;
+    font-weight: bold;
 }
 
 .record {
@@ -95,41 +77,41 @@ body {
     border-radius: 19px;
     margin-bottom: 13px;
     padding: 17px;
-
-    box-shadow:
-        0 4px 15px
-        rgba(0,0,0,.06);
+    box-shadow: 0 4px 15px rgba(0,0,0,.06);
 }
 
 .record-time {
+    font-size: 13px;
     color: #6b7280;
-    font-size: 12px;
-    margin-bottom: 14px;
+    padding-bottom: 12px;
+    margin-bottom: 8px;
     border-bottom: 1px solid #edf0f2;
-    padding-bottom: 11px;
 }
 
 .row {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 9px 0;
+    padding: 10px 0;
+    border-bottom: 1px solid #f1f3f5;
 }
 
-.row-label {
+.row:last-child {
+    border-bottom: none;
+}
+
+.label {
     color: #6b7280;
-    font-size: 14px;
 }
 
-.row-value {
-    font-weight: 800;
-    font-size: 16px;
+.value {
+    font-weight: bold;
+    font-size: 17px;
 }
 
 .empty {
     background: white;
-    padding: 30px;
     border-radius: 18px;
+    padding: 30px;
     text-align: center;
     color: #777;
 }
@@ -139,20 +121,19 @@ body {
     border: none;
     background: #111827;
     color: white;
-    border-radius: 15px;
     padding: 14px;
+    border-radius: 15px;
     font-size: 15px;
     font-weight: bold;
-    margin: 5px 0 15px;
+    margin-bottom: 15px;
 }
 
 .footer {
     text-align: center;
     color: #9ca3af;
     font-size: 11px;
-    padding: 10px 0 25px;
+    padding: 15px 0 25px;
 }
-
 </style>
 
 </head>
@@ -162,20 +143,13 @@ body {
 <div class="container">
 
 <div class="header">
-
     <h1>📊 سجل أسعار بورصة نيالا</h1>
-
-    <p>
-        تاريخ تغيرات أسعار السوق
-    </p>
-
+    <p>تاريخ تغيرات أسعار السوق</p>
 </div>
-
 
 <div class="summary">
 
     <div class="summary-box">
-
         <div class="summary-title">
             عدد التحديثات
         </div>
@@ -183,16 +157,11 @@ body {
         <div
             id="recordCount"
             class="summary-value">
-
             0
-
         </div>
-
     </div>
 
-
     <div class="summary-box">
-
         <div class="summary-title">
             آخر تحديث
         </div>
@@ -200,24 +169,17 @@ body {
         <div
             id="lastRecord"
             class="summary-value">
-
             ---
-
         </div>
-
     </div>
 
 </div>
 
-
 <button
     class="refresh"
     onclick="loadHistory()">
-
     🔄 تحديث السجل
-
 </button>
-
 
 <div id="history">
 
@@ -227,11 +189,8 @@ body {
 
 </div>
 
-
 <div class="footer">
-
     بورصة نيالا © 2026
-
 </div>
 
 </div>
@@ -241,11 +200,8 @@ body {
 
 async function loadHistory() {
 
-    const container =
-        document.getElementById(
-            "history"
-        );
-
+    const box =
+        document.getElementById("history");
 
     try {
 
@@ -258,38 +214,29 @@ async function loadHistory() {
                 }
             );
 
-
         if (!response.ok) {
-
             throw new Error(
-                "HTTP " +
-                response.status
+                "HTTP " + response.status
             );
-
         }
-
 
         const text =
             await response.text();
 
-
         const lines =
             text
             .split(/\r?\n/)
-            .filter(
-                line => line.trim() !== ""
-            );
-
+            .map(line => line.trim())
+            .filter(line => line.length > 0);
 
         document.getElementById(
             "recordCount"
-        ).textContent =
-            lines.length;
+        ).textContent = lines.length;
 
 
         if (lines.length === 0) {
 
-            container.innerHTML =
+            box.innerHTML =
                 '<div class="empty">' +
                 'لا توجد تحديثات حتى الآن' +
                 '</div>';
@@ -301,77 +248,90 @@ async function loadHistory() {
         const latest =
             lines[lines.length - 1];
 
-
-        const latestTime =
-            latest.split(" | ")[0];
-
+        const latestParts =
+            latest.split(" | ");
 
         document.getElementById(
             "lastRecord"
         ).textContent =
-            latestTime
-            .substring(11);
+            latestParts[0] || "---";
 
 
-        container.innerHTML = "";
+        box.innerHTML = "";
 
 
-        /* الأحدث أولًا */
-
-        lines
-        .slice()
-        .reverse()
-        .forEach(
+        lines.reverse().forEach(
             function(line) {
 
                 const parts =
                     line.split(" | ");
 
-
-                if (parts.length < 5) {
-                    return;
-                }
-
-
                 const time =
-                    parts[0];
+                    parts[0] || "---";
+
+                let gold = "";
+                let dollar = "";
+                let diesel = "";
+                let gasoline = "";
 
 
-                const gold =
-                    parts[1]
-                    .replace(
-                        "Gold: ",
-                        ""
-                    );
+                parts.forEach(
+                    function(part) {
 
+                        if (
+                            part.startsWith("Gold:")
+                        ) {
+                            gold =
+                                part
+                                .replace(
+                                    "Gold:",
+                                    ""
+                                )
+                                .trim();
+                        }
 
-                const dollar =
-                    parts[2]
-                    .replace(
-                        "Dollar: ",
-                        ""
-                    );
+                        if (
+                            part.startsWith("Dollar:")
+                        ) {
+                            dollar =
+                                part
+                                .replace(
+                                    "Dollar:",
+                                    ""
+                                )
+                                .trim();
+                        }
 
+                        if (
+                            part.startsWith("Diesel:")
+                        ) {
+                            diesel =
+                                part
+                                .replace(
+                                    "Diesel:",
+                                    ""
+                                )
+                                .trim();
+                        }
 
-                const diesel =
-                    parts[3]
-                    .replace(
-                        "Diesel: ",
-                        ""
-                    );
+                        if (
+                            part.startsWith("Gasoline:")
+                        ) {
+                            gasoline =
+                                part
+                                .replace(
+                                    "Gasoline:",
+                                    ""
+                                )
+                                .trim();
+                        }
 
-
-                const gasoline =
-                    parts[4]
-                    .replace(
-                        "Gasoline: ",
-                        ""
-                    );
+                    }
+                );
 
 
                 const goldParts =
                     gold.split("/");
-
 
                 const dollarParts =
                     dollar.split("/");
@@ -380,27 +340,20 @@ async function loadHistory() {
                 const goldBuy =
                     goldParts[0] || "---";
 
-
                 const goldSell =
                     goldParts[1] || "---";
 
-
                 const dollarBuy =
                     dollarParts[0] || "---";
-
 
                 const dollarSell =
                     dollarParts[1] || "---";
 
 
                 const card =
-                    document.createElement(
-                        "div"
-                    );
+                    document.createElement("div");
 
-
-                card.className =
-                    "record";
+                card.className = "record";
 
 
                 card.innerHTML = `
@@ -410,75 +363,71 @@ async function loadHistory() {
                     </div>
 
                     <div class="row">
-                        <span class="row-label">
+                        <span class="label">
                             🥇 ذهب شراء
                         </span>
 
-                        <span class="row-value">
+                        <span class="value">
                             ${goldBuy}
                         </span>
                     </div>
 
                     <div class="row">
-                        <span class="row-label">
+                        <span class="label">
                             🥇 ذهب بيع
                         </span>
 
-                        <span class="row-value">
+                        <span class="value">
                             ${goldSell}
                         </span>
                     </div>
 
                     <div class="row">
-                        <span class="row-label">
+                        <span class="label">
                             💵 دولار شراء
                         </span>
 
-                        <span class="row-value">
+                        <span class="value">
                             ${dollarBuy}
                         </span>
                     </div>
 
                     <div class="row">
-                        <span class="row-label">
+                        <span class="label">
                             💵 دولار بيع
                         </span>
 
-                        <span class="row-value">
+                        <span class="value">
                             ${dollarSell}
                         </span>
                     </div>
 
                     <div class="row">
-                        <span class="row-label">
+                        <span class="label">
                             ⛽ ديزل
                         </span>
 
-                        <span class="row-value">
-                            ${diesel}
+                        <span class="value">
+                            ${diesel || "---"}
                         </span>
                     </div>
 
                     <div class="row">
-                        <span class="row-label">
+                        <span class="label">
                             🚗 بنزين
                         </span>
 
-                        <span class="row-value">
-                            ${gasoline}
+                        <span class="value">
+                            ${gasoline || "---"}
                         </span>
                     </div>
 
                 `;
 
-
-                container.appendChild(
-                    card
-                );
+                box.appendChild(card);
 
             }
         );
-
 
     }
 
@@ -486,21 +435,16 @@ async function loadHistory() {
 
         console.error(error);
 
-
-        container.innerHTML =
+        box.innerHTML =
             '<div class="empty">' +
             'تعذر تحميل سجل الأسعار' +
             '</div>';
-
     }
-
 }
-
 
 loadHistory();
 
 </script>
 
 </body>
-
 </html>
