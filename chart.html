@@ -106,6 +106,38 @@ button.active {
     height: 340px;
 }
 
+.analysis-summary {
+    margin-top: 12px;
+    padding: 12px;
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 13px;
+    text-align: center;
+}
+
+.change {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.change-up {
+    color: #15803d;
+}
+
+.change-down {
+    color: #dc2626;
+}
+
+.change-flat {
+    color: #6b7280;
+}
+
+.period {
+    color: #6b7280;
+    font-size: 12px;
+}
+
 .status {
     text-align: center;
     color: #6b7280;
@@ -215,6 +247,22 @@ button.active {
             <div class="stat">
                 <small>أقل سعر</small>
                 <strong id="lowPrice">---</strong>
+            </div>
+
+        </div>
+
+        <div class="analysis-summary">
+
+            <div
+                id="changeValue"
+                class="change change-flat">
+                → 0%
+            </div>
+
+            <div
+                id="periodText"
+                class="period">
+                الفترة: ---
             </div>
 
         </div>
@@ -439,11 +487,86 @@ function updateChart() {
     const current =
         values[values.length - 1];
 
+    const first =
+        values[0];
+
     const high =
         Math.max(...values);
 
     const low =
         Math.min(...values);
+
+    const difference =
+        current - first;
+
+    const percent =
+        first !== 0
+            ? (difference / first) * 100
+            : 0;
+
+    const changeEl =
+        document.getElementById("changeValue");
+
+    if (changeEl) {
+
+        changeEl.classList.remove(
+            "change-up",
+            "change-down",
+            "change-flat"
+        );
+
+        if (difference > 0) {
+
+            changeEl.textContent =
+                "↑ +" +
+                difference +
+                " (" +
+                percent.toFixed(2) +
+                "%)";
+
+            changeEl.classList.add(
+                "change-up"
+            );
+
+        } else if (difference < 0) {
+
+            changeEl.textContent =
+                "↓ " +
+                difference +
+                " (" +
+                percent.toFixed(2) +
+                "%)";
+
+            changeEl.classList.add(
+                "change-down"
+            );
+
+        } else {
+
+            changeEl.textContent =
+                "→ 0%";
+
+            changeEl.classList.add(
+                "change-flat"
+            );
+        }
+    }
+
+    const periodEl =
+        document.getElementById("periodText");
+
+    if (periodEl) {
+
+        periodEl.textContent =
+            "الفترة: " +
+            historyData[0].date +
+            " " +
+            historyData[0].time.substring(0, 5) +
+            " → " +
+            historyData[historyData.length - 1].date +
+            " " +
+            historyData[historyData.length - 1].time.substring(0, 5);
+    }
 
     document.getElementById(
         "currentPrice"
