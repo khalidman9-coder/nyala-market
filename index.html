@@ -245,6 +245,21 @@ body {
    Refresh button
 ========================= */
 
+.market-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 11px 0;
+    border-top: 1px solid #edf0f2;
+    font-size: 14px;
+}
+
+.market-row strong {
+    color: #6b7280;
+    font-size: 13px;
+    direction: rtl;
+}
+
 .refresh-btn {
     width: 100%;
 
@@ -519,6 +534,39 @@ body {
 
 
 <!-- =========================
+     Market movement
+========================= -->
+
+<div class="card market-card">
+
+    <div class="card-title">
+        📊 حركة السوق
+    </div>
+
+    <div class="market-row">
+        <span>🥇 الذهب</span>
+        <strong id="goldTrend">→ ثابت</strong>
+    </div>
+
+    <div class="market-row">
+        <span>💵 الدولار</span>
+        <strong id="dollarTrend">→ ثابت</strong>
+    </div>
+
+    <div class="market-row">
+        <span>⛽ الديزل</span>
+        <strong id="dieselTrend">→ ثابت</strong>
+    </div>
+
+    <div class="market-row">
+        <span>🚗 البنزين</span>
+        <strong id="gasolineTrend">→ ثابت</strong>
+    </div>
+
+</div>
+
+
+<!-- =========================
      Refresh
 ========================= -->
 
@@ -714,6 +762,88 @@ async function loadPrices() {
 
 }
 
+
+async function updateMarketTrends() {
+    try {
+        const response = await fetch("/history.txt?t=" + Date.now(), {
+            cache: "no-store"
+        });
+
+        if (!response.ok) return;
+
+        const lines = (await response.text())
+            .split(/\r?\n/)
+            .filter(Boolean);
+
+        if (lines.length < 2) return;
+
+        const oldLine = lines[lines.length - 2];
+        const newLine = lines[lines.length - 1];
+
+        function numberAfter(text, label) {
+            const re = new RegExp(label + ":\\s*([0-9.]+)");
+            const m = text.match(re);
+            return m ? Number(m[1]) : null;
+        }
+
+        function pair(text, label) {
+            const re = new RegExp(label + ":\\s*([0-9.]+)\\/([0-9.]+)");
+            const m = text.match(re);
+            return m ? [Number(m[1]), Number(m[2])] : null;
+        }
+
+        function show(id, oldValue, newValue) {
+            const el = document.getElementById(id);
+            if (!el || oldValue === null || newValue === null) return;
+
+            if (newValue > oldValue) {
+                el.textContent = "↑ +" + (newValue - oldValue);
+                el.style.color = "#15803d";
+            } else if (newValue < oldValue) {
+                el.textContent = "↓ " + (newValue - oldValue);
+                el.style.color = "#dc2626";
+            } else {
+                el.textContent = "→ ثابت";
+                el.style.color = "#6b7280";
+            }
+        }
+
+        const goldOld = pair(oldLine, "Gold");
+        const goldNew = pair(newLine, "Gold");
+
+        const dollarOld = pair(oldLine, "Dollar");
+        const dollarNew = pair(newLine, "Dollar");
+
+        show(
+            "goldTrend",
+            goldOld && goldNew ? goldOld[0] : null,
+            goldOld && goldNew ? goldNew[0] : null
+        );
+
+        show(
+            "dollarTrend",
+            dollarOld && dollarNew ? dollarOld[0] : null,
+            dollarOld && dollarNew ? dollarNew[0] : null
+        );
+
+        show(
+            "dieselTrend",
+            numberAfter(oldLine, "Diesel"),
+            numberAfter(newLine, "Diesel")
+        );
+
+        show(
+            "gasolineTrend",
+            numberAfter(oldLine, "Gasoline"),
+            numberAfter(newLine, "Gasoline")
+        );
+
+    } catch (error) {
+        console.error("Trend error:", error);
+    }
+}
+
+updateMarketTrends();
 
 /* =========================
    التحميل الأول
