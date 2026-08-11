@@ -76,6 +76,33 @@ button.active {
     background: #374151;
 }
 
+.period-buttons {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 7px;
+    margin-top: 10px;
+}
+
+.period-buttons button {
+    padding: 10px 4px;
+    font-size: 12px;
+    background: #f3f4f6;
+    color: #374151;
+    border: 1px solid #e5e7eb;
+}
+
+.period-buttons button.active {
+    background: #111827;
+    color: white;
+    border-color: #111827;
+}
+
+@media (max-width: 420px) {
+    .period-buttons {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
 .stats {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -295,6 +322,44 @@ button.active {
 
     <div class="card">
 
+        <div class="period-buttons">
+
+            <button
+                id="period1h"
+                onclick="selectPeriod('1h')">
+                ساعة
+            </button>
+
+            <button
+                id="period1d"
+                onclick="selectPeriod('1d')">
+                اليوم
+            </button>
+
+            <button
+                id="period7d"
+                onclick="selectPeriod('7d')">
+                7 أيام
+            </button>
+
+            <button
+                id="period30d"
+                onclick="selectPeriod('30d')">
+                30 يوم
+            </button>
+
+            <button
+                id="periodAll"
+                onclick="selectPeriod('all')">
+                الكل
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
         <div class="chart-box">
             <canvas id="priceChart"></canvas>
         </div>
@@ -320,6 +385,7 @@ button.active {
 let historyData = [];
 let selectedMarket = "gold";
 let selectedSide = "buy";
+let selectedPeriod = "all";
 let chart = null;
 
 
@@ -435,6 +501,83 @@ function selectSide(side) {
 
 
 /* =========================
+   اختيار الفترة
+========================= */
+
+function selectPeriod(period) {
+
+    selectedPeriod = period;
+
+    updateChart();
+}
+
+
+/* =========================
+   تصفية البيانات حسب الفترة
+========================= */
+
+function getFilteredHistory() {
+
+    if (selectedPeriod === "all") {
+        return historyData;
+    }
+
+    if (!historyData.length) {
+        return [];
+    }
+
+    const last =
+        historyData[historyData.length - 1];
+
+    const end =
+        new Date(
+            last.date + "T" + last.time
+        );
+
+    let milliseconds = 0;
+
+    if (selectedPeriod === "1h") {
+        milliseconds =
+            60 * 60 * 1000;
+    }
+
+    if (selectedPeriod === "1d") {
+        milliseconds =
+            24 * 60 * 60 * 1000;
+    }
+
+    if (selectedPeriod === "7d") {
+        milliseconds =
+            7 * 24 * 60 * 60 * 1000;
+    }
+
+    if (selectedPeriod === "30d") {
+        milliseconds =
+            30 * 24 * 60 * 60 * 1000;
+    }
+
+    const start =
+        new Date(
+            end.getTime() - milliseconds
+        );
+
+    return historyData.filter(
+        function(item) {
+
+            const date =
+                new Date(
+                    item.date +
+                    "T" +
+                    item.time
+                );
+
+            return date >= start;
+        }
+    );
+}
+
+
+/* =========================
    الحصول على البيانات
 ========================= */
 
@@ -493,20 +636,32 @@ function getMarketName() {
 
 function updateChart() {
 
-    if (!historyData.length) {
+    const filteredHistory =
+        getFilteredHistory();
+
+    if (!filteredHistory.length) {
         return;
     }
 
     const labels =
-        historyData.map(
+        filteredHistory.map(
             item =>
                 item.date.substring(5) +
                 " " +
                 item.time.substring(0, 5)
         );
 
+    const originalHistory =
+        historyData;
+
+    historyData =
+        filteredHistory;
+
     const values =
         getValues();
+
+    historyData =
+        originalHistory;
 
     const current =
         values[values.length - 1];
@@ -583,13 +738,13 @@ function updateChart() {
 
         periodEl.textContent =
             "الفترة: " +
-            historyData[0].date +
+            filteredHistory[0].date +
             " " +
-            historyData[0].time.substring(0, 5) +
+            filteredHistory[0].time.substring(0, 5) +
             " → " +
-            historyData[historyData.length - 1].date +
+            filteredHistory[filteredHistory.length - 1].date +
             " " +
-            historyData[historyData.length - 1].time.substring(0, 5);
+            filteredHistory[filteredHistory.length - 1].time.substring(0, 5);
     }
 
     const directionEl =
@@ -684,6 +839,41 @@ function updateChart() {
     ).classList.toggle(
         "active",
         selectedSide === "sell"
+    );
+
+    document.getElementById(
+        "period1h"
+    ).classList.toggle(
+        "active",
+        selectedPeriod === "1h"
+    );
+
+    document.getElementById(
+        "period1d"
+    ).classList.toggle(
+        "active",
+        selectedPeriod === "1d"
+    );
+
+    document.getElementById(
+        "period7d"
+    ).classList.toggle(
+        "active",
+        selectedPeriod === "7d"
+    );
+
+    document.getElementById(
+        "period30d"
+    ).classList.toggle(
+        "active",
+        selectedPeriod === "30d"
+    );
+
+    document.getElementById(
+        "periodAll"
+    ).classList.toggle(
+        "active",
+        selectedPeriod === "all"
     );
 
     const ctx =
