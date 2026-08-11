@@ -4,8 +4,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#111827">
-<title>تحليل أسعار بورصة نيالا</title>
+
+<title>تحليل السوق - بورصة نيالا</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -17,97 +17,121 @@
 body {
     margin: 0;
     padding: 14px;
-    background: #f3f4f6;
-    color: #111827;
-    font-family: Arial, sans-serif;
+    font-family: Arial, Tahoma, sans-serif;
+    background: #eef2f6;
+    color: #17202a;
 }
 
 .container {
-    max-width: 1000px;
+    max-width: 600px;
     margin: auto;
 }
 
 .header {
-    background: #111827;
+    background: linear-gradient(135deg, #111827, #1f2937);
     color: white;
-    padding: 20px;
-    border-radius: 14px;
-    margin-bottom: 15px;
+    border-radius: 20px;
+    padding: 22px 18px;
+    text-align: center;
+    margin-bottom: 12px;
 }
 
 .header h1 {
-    margin: 0 0 7px;
-    font-size: 24px;
+    margin: 0;
+    font-size: 27px;
 }
 
 .header p {
-    margin: 0;
-    opacity: .8;
+    margin: 7px 0 0;
+    color: #d1d5db;
+    font-size: 13px;
+}
+
+.card {
+    background: white;
+    border-radius: 18px;
+    padding: 17px;
+    margin-bottom: 12px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 3px 14px rgba(0,0,0,.06);
 }
 
 .controls {
-    background: white;
-    padding: 15px;
-    border-radius: 14px;
-    margin-bottom: 15px;
-    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
 }
 
-.controls label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 8px;
-}
-
-select {
-    width: 100%;
+button {
+    border: none;
+    border-radius: 12px;
     padding: 12px;
-    border: 1px solid #d1d5db;
-    border-radius: 9px;
+    font-weight: bold;
+    cursor: pointer;
+    background: #111827;
+    color: white;
+}
+
+button.active {
+    background: #374151;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.stat {
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 10px 5px;
+    text-align: center;
+}
+
+.stat small {
+    display: block;
+    color: #6b7280;
+    font-size: 11px;
+    margin-bottom: 5px;
+}
+
+.stat strong {
     font-size: 16px;
-    background: white;
 }
 
 .chart-box {
-    background: white;
-    padding: 15px;
-    border-radius: 14px;
-    box-shadow: 0 2px 8px rgba(0,0,0,.08);
-}
-
-canvas {
-    width: 100% !important;
-    height: 420px !important;
+    height: 340px;
 }
 
 .status {
-    margin-top: 12px;
     text-align: center;
     color: #6b7280;
-    font-size: 14px;
+    font-size: 12px;
+    margin-top: 8px;
 }
 
 .back {
-    display: inline-block;
-    margin-top: 15px;
+    display: block;
+    text-align: center;
     text-decoration: none;
-    background: #111827;
-    color: white;
-    padding: 10px 16px;
-    border-radius: 9px;
+    background: white;
+    color: #111827;
+    border-radius: 13px;
+    padding: 12px;
+    margin-top: 12px;
+    border: 1px solid #e5e7eb;
 }
 
-@media (max-width: 600px) {
-    body {
-        padding: 9px;
+@media (max-width: 380px) {
+    .stats {
+        grid-template-columns: 1fr;
     }
 
-    .header h1 {
-        font-size: 20px;
-    }
-
-    canvas {
-        height: 340px !important;
+    .chart-box {
+        height: 280px;
     }
 }
 </style>
@@ -118,37 +142,103 @@ canvas {
 <div class="container">
 
     <div class="header">
-        <h1>📊 تحليل أسعار بورصة نيالا</h1>
-        <p>متابعة حركة الأسعار المسجلة عبر الزمن</p>
+        <h1>📈 تحليل السوق</h1>
+        <p>تاريخ أسعار بورصة نيالا</p>
     </div>
 
-    <div class="controls">
+    <div class="card">
 
-        <label for="marketSelect">
-            اختر السعر المراد تحليله
-        </label>
+        <div class="controls">
 
-        <select id="marketSelect">
-            <option value="gold">🥇 الذهب</option>
-            <option value="dollar">💵 الدولار</option>
-            <option value="diesel">⛽ الديزل</option>
-            <option value="gasoline">🚗 البنزين</option>
-        </select>
+            <button
+                id="goldBtn"
+                onclick="selectMarket('gold')">
+                🥇 الذهب
+            </button>
 
-    </div>
+            <button
+                id="dollarBtn"
+                onclick="selectMarket('dollar')">
+                💵 الدولار
+            </button>
 
-    <div class="chart-box">
+            <button
+                id="dieselBtn"
+                onclick="selectMarket('diesel')">
+                ⛽ الديزل
+            </button>
 
-        <canvas id="priceChart"></canvas>
+            <button
+                id="gasolineBtn"
+                onclick="selectMarket('gasoline')">
+                🚗 البنزين
+            </button>
 
-        <div class="status" id="status">
-            جارٍ تحميل البيانات...
         </div>
 
     </div>
 
-    <a class="back" href="/">
-        العودة إلى الصفحة الرئيسية
+    <div class="card">
+
+        <div class="controls">
+
+            <button
+                id="buyBtn"
+                onclick="selectSide('buy')">
+                شراء
+            </button>
+
+            <button
+                id="sellBtn"
+                onclick="selectSide('sell')">
+                بيع
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="stats">
+
+            <div class="stat">
+                <small>آخر سعر</small>
+                <strong id="currentPrice">---</strong>
+            </div>
+
+            <div class="stat">
+                <small>أعلى سعر</small>
+                <strong id="highPrice">---</strong>
+            </div>
+
+            <div class="stat">
+                <small>أقل سعر</small>
+                <strong id="lowPrice">---</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="chart-box">
+            <canvas id="priceChart"></canvas>
+        </div>
+
+        <div
+            id="status"
+            class="status">
+            جاري تحميل البيانات...
+        </div>
+
+    </div>
+
+    <a
+        href="/"
+        class="back">
+        ← العودة إلى الأسعار
     </a>
 
 </div>
@@ -156,278 +246,328 @@ canvas {
 <script>
 
 let historyData = [];
+let selectedMarket = "gold";
+let selectedSide = "buy";
 let chart = null;
 
-const select = document.getElementById("marketSelect");
-const statusBox = document.getElementById("status");
+
+/* =========================
+   تحليل سطر التاريخ
+========================= */
+
+function parseHistoryLine(line) {
+
+    const match = line.match(
+        /^(\d{4}-\d{2}-\d{2})\s+(\d{2}:\d{2}:\d{2})\s+\|\s+Gold:\s+([^/]+)\/([^|]+)\s+\|\s+Dollar:\s+([^/]+)\/([^|]+)\s+\|\s+Diesel:\s+([^|]+)\s+\|\s+Gasoline:\s+(.+)$/
+    );
+
+    if (!match) {
+        return null;
+    }
+
+    return {
+        date: match[1],
+        time: match[2],
+
+        goldBuy: Number(match[3].trim()),
+        goldSell: Number(match[4].trim()),
+
+        dollarBuy: Number(match[5].trim()),
+        dollarSell: Number(match[6].trim()),
+
+        diesel: Number(match[7].trim()),
+        gasoline: Number(match[8].trim())
+    };
+}
+
+
+/* =========================
+   تحميل التاريخ
+========================= */
 
 async function loadHistory() {
 
+    const status =
+        document.getElementById("status");
+
     try {
 
-        const response = await fetch(
-            "/history.txt?time=" + Date.now(),
-            {
-                cache: "no-store"
-            }
-        );
+        const response =
+            await fetch(
+                "/history.txt?t=" + Date.now(),
+                {
+                    cache: "no-store"
+                }
+            );
 
         if (!response.ok) {
-            throw new Error("HTTP " + response.status);
+            throw new Error(
+                "HTTP " + response.status
+            );
         }
 
-        const text = await response.text();
+        const text =
+            await response.text();
 
-        historyData = parseHistory(text);
+        historyData =
+            text
+            .split(/\r?\n/)
+            .map(parseHistoryLine)
+            .filter(Boolean);
 
         if (!historyData.length) {
-
-            statusBox.textContent =
-                "لا توجد بيانات تاريخية حتى الآن";
-
-            return;
+            throw new Error(
+                "لا توجد بيانات تاريخية"
+            );
         }
 
-        drawChart();
+        updateChart();
+
+        status.textContent =
+            "تم تحميل " +
+            historyData.length +
+            " تحديث";
 
     } catch (error) {
 
         console.error(error);
 
-        statusBox.textContent =
-            "حدث خطأ أثناء تحميل بيانات الأسعار";
-
+        status.textContent =
+            "تعذر تحميل التاريخ";
     }
-
 }
 
 
-function parseHistory(text) {
+/* =========================
+   اختيار السوق
+========================= */
 
-    const lines = text
-        .split(/\r?\n/)
-        .map(line => line.trim())
-        .filter(line => line.length > 0);
+function selectMarket(market) {
 
-    const result = [];
+    selectedMarket = market;
 
-    for (const line of lines) {
+    updateChart();
+}
 
-        const match = line.match(
-            /^(.+?)\s+\|\s+Gold:\s*([\d.]+)\/([\d.]+)\s+\|\s+Dollar:\s*([\d.]+)\/([\d.]+)\s+\|\s+Diesel:\s*([\d.]+)\s+\|\s+Gasoline:\s*([\d.]+)/
+
+/* =========================
+   اختيار شراء / بيع
+========================= */
+
+function selectSide(side) {
+
+    selectedSide = side;
+
+    updateChart();
+}
+
+
+/* =========================
+   الحصول على البيانات
+========================= */
+
+function getValues() {
+
+    return historyData.map(
+        function(item) {
+
+            if (selectedMarket === "gold") {
+                return selectedSide === "buy"
+                    ? item.goldBuy
+                    : item.goldSell;
+            }
+
+            if (selectedMarket === "dollar") {
+                return selectedSide === "buy"
+                    ? item.dollarBuy
+                    : item.dollarSell;
+            }
+
+            if (selectedMarket === "diesel") {
+                return item.diesel;
+            }
+
+            return item.gasoline;
+        }
+    );
+}
+
+
+/* =========================
+   اسم السوق
+========================= */
+
+function getMarketName() {
+
+    if (selectedMarket === "gold") {
+        return "الذهب";
+    }
+
+    if (selectedMarket === "dollar") {
+        return "الدولار";
+    }
+
+    if (selectedMarket === "diesel") {
+        return "الديزل";
+    }
+
+    return "البنزين";
+}
+
+
+/* =========================
+   تحديث الرسم
+========================= */
+
+function updateChart() {
+
+    if (!historyData.length) {
+        return;
+    }
+
+    const labels =
+        historyData.map(
+            item =>
+                item.date.substring(5) +
+                " " +
+                item.time.substring(0, 5)
         );
 
-        if (!match) {
-            continue;
-        }
+    const values =
+        getValues();
 
-        result.push({
+    const current =
+        values[values.length - 1];
 
-            time: match[1],
+    const high =
+        Math.max(...values);
 
-            goldBuy: Number(match[2]),
-            goldSell: Number(match[3]),
+    const low =
+        Math.min(...values);
 
-            dollarBuy: Number(match[4]),
-            dollarSell: Number(match[5]),
+    document.getElementById(
+        "currentPrice"
+    ).textContent = current;
 
-            diesel: Number(match[6]),
-            gasoline: Number(match[7])
+    document.getElementById(
+        "highPrice"
+    ).textContent = high;
 
-        });
+    document.getElementById(
+        "lowPrice"
+    ).textContent = low;
 
-    }
+    document.getElementById(
+        "goldBtn"
+    ).classList.toggle(
+        "active",
+        selectedMarket === "gold"
+    );
 
-    return result;
-}
+    document.getElementById(
+        "dollarBtn"
+    ).classList.toggle(
+        "active",
+        selectedMarket === "dollar"
+    );
 
+    document.getElementById(
+        "dieselBtn"
+    ).classList.toggle(
+        "active",
+        selectedMarket === "diesel"
+    );
 
-function drawChart() {
+    document.getElementById(
+        "gasolineBtn"
+    ).classList.toggle(
+        "active",
+        selectedMarket === "gasoline"
+    );
 
-    const type = select.value;
+    document.getElementById(
+        "buyBtn"
+    ).classList.toggle(
+        "active",
+        selectedSide === "buy"
+    );
 
-    let labels = [];
-    let datasets = [];
+    document.getElementById(
+        "sellBtn"
+    ).classList.toggle(
+        "active",
+        selectedSide === "sell"
+    );
 
-    if (type === "gold") {
-
-        labels = historyData.map(item => item.time);
-
-        datasets = [
-
-            {
-                label: "الذهب شراء",
-                data: historyData.map(item => item.goldBuy),
-                tension: 0.25
-            },
-
-            {
-                label: "الذهب بيع",
-                data: historyData.map(item => item.goldSell),
-                tension: 0.25
-            }
-
-        ];
-
-    }
-
-
-    if (type === "dollar") {
-
-        labels = historyData.map(item => item.time);
-
-        datasets = [
-
-            {
-                label: "الدولار شراء",
-                data: historyData.map(item => item.dollarBuy),
-                tension: 0.25
-            },
-
-            {
-                label: "الدولار بيع",
-                data: historyData.map(item => item.dollarSell),
-                tension: 0.25
-            }
-
-        ];
-
-    }
-
-
-    if (type === "diesel") {
-
-        labels = historyData.map(item => item.time);
-
-        datasets = [
-
-            {
-                label: "الديزل",
-                data: historyData.map(item => item.diesel),
-                tension: 0.25
-            }
-
-        ];
-
-    }
-
-
-    if (type === "gasoline") {
-
-        labels = historyData.map(item => item.time);
-
-        datasets = [
-
-            {
-                label: "البنزين",
-                data: historyData.map(item => item.gasoline),
-                tension: 0.25
-            }
-
-        ];
-
-    }
-
+    const ctx =
+        document
+        .getElementById("priceChart")
+        .getContext("2d");
 
     if (chart) {
         chart.destroy();
     }
 
+    chart =
+        new Chart(
+            ctx,
+            {
+                type: "line",
 
-    const ctx =
-        document.getElementById("priceChart")
-        .getContext("2d");
+                data: {
+                    labels: labels,
 
+                    datasets: [
+                        {
+                            label:
+                                getMarketName(),
 
-    chart = new Chart(ctx, {
+                            data: values,
 
-        type: "line",
+                            borderWidth: 2,
 
-        data: {
-            labels: labels,
-            datasets: datasets
-        },
+                            tension: 0.25,
 
-        options: {
+                            pointRadius: 3,
 
-            responsive: true,
-
-            maintainAspectRatio: false,
-
-            interaction: {
-                mode: "index",
-                intersect: false
-            },
-
-            plugins: {
-
-                legend: {
-                    display: true,
-                    position: "top"
+                            fill: false
+                        }
+                    ]
                 },
 
-                tooltip: {
-                    callbacks: {
+                options: {
 
-                        title: function(items) {
+                    responsive: true,
 
-                            return items[0].label;
+                    maintainAspectRatio: false,
 
-                        },
+                    plugins: {
 
-                        label: function(context) {
+                        legend: {
+                            display: true
+                        }
 
-                            return (
-                                context.dataset.label +
-                                ": " +
-                                context.parsed.y
-                            );
+                    },
 
+                    scales: {
+
+                        y: {
+                            beginAtZero: false
                         }
 
                     }
-                }
-
-            },
-
-            scales: {
-
-                x: {
-
-                    ticks: {
-                        maxRotation: 45,
-                        minRotation: 0
-                    }
-
-                },
-
-                y: {
-
-                    beginAtZero: false
 
                 }
-
             }
-
-        }
-
-    });
-
-
-    statusBox.textContent =
-        "عدد التحديثات المسجلة: " +
-        historyData.length;
-
+        );
 }
 
-
-select.addEventListener(
-    "change",
-    drawChart
-);
-
-
 loadHistory();
+
+setInterval(
+    loadHistory,
+    30000
+);
 
 </script>
 
