@@ -245,6 +245,19 @@ body {
    Refresh button
 ========================= */
 
+.market-update-time {
+    color: #6b7280;
+    font-size: 12px;
+    margin: -7px 0 12px;
+    text-align: center;
+}
+
+.market-update-time strong {
+    color: #374151;
+    direction: ltr;
+    unicode-bidi: embed;
+}
+
 .market-row {
     display: flex;
     justify-content: space-between;
@@ -543,6 +556,10 @@ body {
         📊 حركة السوق
     </div>
 
+    <div class="market-update-time">
+        آخر حركة: <strong id="marketUpdateTime">---</strong>
+    </div>
+
     <div class="market-row">
         <span>🥇 الذهب</span>
         <strong id="goldTrend">→ ثابت</strong>
@@ -779,6 +796,19 @@ async function updateMarketTrends() {
 
         const oldLine = lines[lines.length - 2];
         const newLine = lines[lines.length - 1];
+
+        const timeEl =
+            document.getElementById("marketUpdateTime");
+
+        if (timeEl) {
+            const timeMatch =
+                newLine.match(/^(\d{4}-\d{2}-\d{2})\s+(\d{2}:\d{2}:\d{2})/);
+
+            if (timeMatch) {
+                timeEl.textContent =
+                    timeMatch[1] + " " + timeMatch[2];
+            }
+        }
 
         function numberAfter(text, label) {
             const re = new RegExp(label + ":\\s*([0-9.]+)");
