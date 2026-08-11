@@ -138,6 +138,24 @@ button.active {
     font-size: 12px;
 }
 
+.direction {
+    margin-top: 7px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.direction-up {
+    color: #15803d;
+}
+
+.direction-down {
+    color: #dc2626;
+}
+
+.direction-flat {
+    color: #6b7280;
+}
+
 .status {
     text-align: center;
     color: #6b7280;
@@ -263,6 +281,12 @@ button.active {
                 id="periodText"
                 class="period">
                 الفترة: ---
+            </div>
+
+            <div
+                id="directionText"
+                class="direction direction-flat">
+                → الاتجاه: مستقر
             </div>
 
         </div>
@@ -566,6 +590,46 @@ function updateChart() {
             historyData[historyData.length - 1].date +
             " " +
             historyData[historyData.length - 1].time.substring(0, 5);
+    }
+
+    const directionEl =
+        document.getElementById("directionText");
+
+    if (directionEl) {
+
+        directionEl.classList.remove(
+            "direction-up",
+            "direction-down",
+            "direction-flat"
+        );
+
+        if (difference > 0) {
+
+            directionEl.textContent =
+                "📈 الاتجاه: صاعد";
+
+            directionEl.classList.add(
+                "direction-up"
+            );
+
+        } else if (difference < 0) {
+
+            directionEl.textContent =
+                "📉 الاتجاه: هابط";
+
+            directionEl.classList.add(
+                "direction-down"
+            );
+
+        } else {
+
+            directionEl.textContent =
+                "→ الاتجاه: مستقر";
+
+            directionEl.classList.add(
+                "direction-flat"
+            );
+        }
     }
 
     document.getElementById(
