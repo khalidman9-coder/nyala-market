@@ -1,6 +1,7 @@
-Gold BUY: 4350
-Gold SELL: 4370
+Gold BUY: 4360
+Gold SELL: 4380
 Dollar BUY: 4250
 Dollar SELL: 4280
-Fuel: 1400
-Last update: 2026-08-10 15:50:00
+Diesel: 1455
+Gasoline: 1557
+Last update: 2026-08-11 09:52:07
